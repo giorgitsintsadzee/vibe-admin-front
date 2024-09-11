@@ -1,0 +1,60 @@
+@import '../../../styles/colors.scss';
+
+.searchContainer {
+    position: relative;
+    display: flex;
+    width: 100%;
+    background-color: $grayColor;
+    border-radius: 8px;
+}
+
+.search {
+    width: 100%;
+    padding: 8px 16px 8px 40px;
+    border-radius: 8px;
+    background-color: $grayColor;
+    border: none;
+    color: $white;
+    height: 40px;
+    outline: none;
+}
+
+.search:focus {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.icon {
+    position: absolute;
+    left: 8px;
+    top: 6px;
+}
+
+.border {
+    width: 100%;
+    position: absolute;
+    top: 40px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    z-index: 1;
+}
+
+.options {
+    list-style-type: none;
+    border: 1px solid $grayColor;
+    max-height: 200px;
+    color: $white;
+}
+
+.optionImage {
+    width: 24px;
+    height: 24px;
+}
+
+.singer {
+    border-radius: 50%;
+}
+
+.album {
+    border-radius: 4px;
+}

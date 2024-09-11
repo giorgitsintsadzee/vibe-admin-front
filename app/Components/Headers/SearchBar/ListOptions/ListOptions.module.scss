@@ -1,0 +1,38 @@
+@import '../../../../styles/colors.scss';
+
+.listOptions {
+    width: 100%;
+    background-color: $grayColor;
+    border-top: 1px solid #6363633D;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    cursor: pointer;
+    color: $white;
+}
+
+.optionImage {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.singer {
+    border-radius: 50%;
+}
+
+.album {
+    border-radius: 4px;
+}
+.listOptions a {
+    display: flex;
+    align-items: center ;
+}
