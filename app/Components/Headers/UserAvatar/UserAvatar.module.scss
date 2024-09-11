@@ -1,0 +1,72 @@
+.container {
+    position: relative;
+}
+
+.userAvatar {
+    cursor: pointer;
+}
+
+.userAvatar :active {
+    background-color: #29292978;
+
+}
+
+.userWindow {
+    background-color: #000;
+    width: 295px;
+    height: 95px;
+    padding-left: 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 64px;
+    right: 30px;
+    cursor: pointer;
+    gap: 12px;
+}
+
+.longOut {
+    display: flex;
+    width: 183px;
+    padding: 4px 0px;
+    align-items: center;
+    gap: 4px;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.19);
+}
+
+
+
+
+@media screen and (max-width:1023px) and (min-width:768px) {
+    .userWindow {
+        display: none;
+    }
+
+    .container {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width:768px) {
+    .userWindow {
+        display: none;
+    }
+
+    .container {
+        display: none;
+    }
+
+}
+
+.wrapper {
+    width: 100%;
+    height: 100vh;
+    background-color: #29292978;
+    z-index: 20;
+    position: fixed;
+    top: 0;
+    left: 0;
+}

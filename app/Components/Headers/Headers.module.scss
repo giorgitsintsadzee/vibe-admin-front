@@ -1,0 +1,95 @@
+@import '../../styles/colors.scss';
+
+.container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 16px 24px;
+    background-color: $darkColor;
+    align-items: center;
+    height: 72px;
+}
+
+.logo {
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.searchLogoContainer {
+    display: flex;
+    max-width: 285px;
+    width: 100%;
+}
+
+.searchLogo {
+    max-width: 732px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.search {
+    display: flex;
+    max-width: 634px;
+    width: 100%;
+    padding: 8px 44px;
+    gap: 8px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background-color: $grayColor;
+    justify-content: center;
+    border: none;
+}
+
+.search:focus {
+    color: $white;
+}
+
+.searchContainer {
+    display: flex;
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+}
+
+.icon {
+    position: absolute;
+    left: 16px;
+    top: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.nones{
+    display: none;
+}
+
+@media screen and (min-width:768px) and (max-width:1023px) {
+    .searchLogo {
+        display: flex;
+        justify-content: space-between;
+        max-width: 650px;
+        width: 100%;
+    }
+
+    .nones{
+        display: none;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .searchLogo {
+        display: flex;
+        justify-content: space-between;
+        max-width: 650px;
+        width: 100%;
+    }
+}
