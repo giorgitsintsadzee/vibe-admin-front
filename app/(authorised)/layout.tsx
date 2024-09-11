@@ -11,7 +11,6 @@ const AuthLayout = (props: Props) => {
         <div className={styles.children}>
             {props.children}
         </div>
-
     )
 };
 
