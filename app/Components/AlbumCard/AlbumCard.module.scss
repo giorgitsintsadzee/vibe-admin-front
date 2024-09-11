@@ -1,0 +1,66 @@
+@import '../../styles/colors.scss';
+
+.albumCardLink {
+    text-decoration: none;
+}
+
+.albumCard {
+    display: flex;
+    border-radius: 16px;
+    background: $grayColor;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px;
+    width: 100%;
+    max-width: 259px;
+    height: 100%;
+}
+
+.albumCard:hover {
+    background: #252525;
+}
+
+.image {
+    border-radius: 12px;
+    width: 100%;
+    align-self: stretch;
+
+}
+
+.albumCardText {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-self: stretch;
+    flex-wrap: wrap;
+}
+
+.artistName {
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.songName {
+    color: var(--text-color, #FFF);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.year {
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 14px;
+    font-weight: 500;
+}
