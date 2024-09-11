@@ -1,0 +1,30 @@
+@import '../../styles/colors.scss';
+
+.button {
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+
+.primary {
+  background-color: $primayColor;
+  color: #E2E2E3;
+}
+
+.primary:hover {
+  background-color: $primayHoverColor;
+  color: #E2E2E3;
+}
+
+.secondary {
+  background: rgba(105, 109, 140, 0.20);
+  color: #E2E2E3;
+}
+
+.secondary:hover {
+  background: rgba(105, 109, 140, 0.44);
+  color: #E2E2E3;
+}
