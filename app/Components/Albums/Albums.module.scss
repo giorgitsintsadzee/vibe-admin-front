@@ -1,0 +1,10 @@
+@import '../../styles/colors.scss';
+
+.albumsContainer {
+    display: grid;
+    width: 100%;
+    grid-gap: 13px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    cursor: pointer;
+
+}
