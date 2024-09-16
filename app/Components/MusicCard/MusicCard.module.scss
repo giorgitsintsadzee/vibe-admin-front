@@ -1,0 +1,76 @@
+.musicCard {
+    display: flex;
+    width: 100%;
+    height: 72px;
+    padding: 14px 10px 15px 16px;
+    align-items: center;
+    border-radius: 8px;
+    background: var(--background, #0F0F0F);
+}
+
+.musicCard:hover {
+    background: #252525;
+}
+
+.musicCardComp {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.musiccardList {
+    display: flex;
+    width: 100%;
+    height: 43px;
+    align-items: flex-start;
+    gap: 14px;
+    position: relative;
+}
+
+.musicCardImage {
+    width: 43px;
+    height: 43px;
+    cursor: pointer;
+}
+
+.musicCardHeart {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.musicCardInfo {
+    display: flex;
+    height: 43px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.songName {
+    color: var(--text-color, #FFF);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.artistName {
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.audioPlay {
+    display: none;
+}
+
+.musicCard:hover .audioPlay {
+    display: flex;
+    position: absolute;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
