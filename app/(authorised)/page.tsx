@@ -8,7 +8,7 @@ import MusicCard from '../Components/MusicCard/MusicCard';
 export default function Home() {
     return (
         <>
-        <MusicCard imageUrl={'/musicCard.svg'} songName={'yellow'} artistName={'ghju'} showBin={true} />
+    
         </>
     );
 }

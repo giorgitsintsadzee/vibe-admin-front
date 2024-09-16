@@ -1,0 +1,24 @@
+.pages {
+    display: flex;
+}
+
+.container {
+    overflow-x: hidden;
+}
+
+.children {
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+    width: 100%;
+    padding: 10px;
+}
+
+.navMenuContainer {
+    background: #0F0F0F;
+    height: 100vh;
+}
+
+.pages {
+    display: flex;
+}
