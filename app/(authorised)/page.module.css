@@ -1,0 +1,44 @@
+.musicCard {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+    padding-bottom: 15px;
+}
+
+.musicCardTitle {
+    color: var(--text-color, #FFF);
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    position: relative;
+    padding-left: 15px;
+    height: 400px;
+    padding: 10px;
+}
+
+.albumsPage{
+    cursor: pointer;
+    padding-top: 15px;
+}
+
+.albumsText {
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px;
+    font-family: Inter;
+}
+
+.ArtistCard {
+    width: 100%;
+    display: grid;
+}
