@@ -24,22 +24,16 @@ const desktoplinkData = [
         src: '/artist.svg',
         key: '/artist'
     },
+
     {
         id: 3,
-        href: '/playlist',
-        text: 'Playlist',
-        src: '/playlist.svg',
-        key: '/playlist'
-    },
-    {
-        id: 4,
         href: '/albums',
         text: 'Albums',
         src: '/albums.svg',
         key: '/albums'
     },
     {
-        id: 5,
+        id: 4,
         href: '/usermanagement',
         text: 'User management',
         src: '/usernav.svg',
