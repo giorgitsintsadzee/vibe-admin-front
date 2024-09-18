@@ -8,6 +8,11 @@
   border: none;
 }
 
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .primary {
   background-color: $primayColor;
