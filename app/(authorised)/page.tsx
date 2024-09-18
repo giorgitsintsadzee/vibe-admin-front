@@ -5,10 +5,10 @@ import NavBarMenu from '../Components/NavBarMenu/NavBarMenu';
 import styles from './page.module.css'
 import Headers from '../Components/Headers/Headers';
 import MusicCard from '../Components/MusicCard/MusicCard';
+import ArtistTable from '../Components/ArtistTable/ArtistTable';
 export default function Home() {
     return (
         <>
-    
         </>
     );
 }

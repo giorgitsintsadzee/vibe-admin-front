@@ -1,0 +1,31 @@
+    .ant-table-thead>tr>th {
+        background: #121212 !important;
+        border-start-start-radius: 0px !important;
+        border-start-end-radius: 0px !important;
+        color: #ababab !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        text-transform: capitalize;
+    }
+
+    .ant-table-cell {
+        border-bottom: 8px solid #121212 !important;
+        background: #161616 !important;
+        color: #fff;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+    }
+
+    .ant-table-cell::before {
+        content: none !important;
+    }
+
+    .ant-pagination {
+        display: none !important;
+    }
+
+    .ant-table {
+        cursor: pointer !important;
+    }
