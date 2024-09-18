@@ -68,5 +68,5 @@ button {
 body {
   background-color: #121212;
   height: 100vh;
-  overflow-x: hidden;
+  overflow-y: hidden;
 }
