@@ -1,8 +1,7 @@
 'use client';
 
 import { Table } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'; // Import Ant Design icons
-import React from 'react';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 type ArtistRecord = {
     key: string;
@@ -12,7 +11,7 @@ type ArtistRecord = {
     image: string;
 };
 
-const ArtistTable: React.FC = () => {
+const ArtistTable = () => {
     const dataSource: ArtistRecord[] = [
         {
             key: '1',
@@ -96,7 +95,7 @@ const ArtistTable: React.FC = () => {
         },
     ];
 
-    return <Table dataSource={dataSource} columns={columns} />;
+    return <Table dataSource={dataSource} columns={columns} pagination={false} />;
 };
 
 export default ArtistTable;

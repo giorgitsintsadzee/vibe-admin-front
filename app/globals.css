@@ -45,6 +45,7 @@ body {
   font-weight: 500;
   line-height: normal;
   background: var(--Color, #121212);
+  overflow: hidden;
 }
 
 a {
@@ -63,10 +64,4 @@ button {
 
 :link {
   text-decoration: none;
-}
-
-body {
-  background-color: #121212;
-  height: 100vh;
-  overflow-y: hidden;
 }
