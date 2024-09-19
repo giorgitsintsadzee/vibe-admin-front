@@ -35,14 +35,14 @@
 }
 
 .delete span {
-    font-size: 14px;
+    font-size: 16px;
+    padding-left: 90px;
 }
 
 .close {
     display: flex;
-    justify-content: right;
-    gap: 25px;
     align-items: center;
+    justify-content: space-between;
 }
 
 .close img {
@@ -54,6 +54,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    
 
 }
 

@@ -16,8 +16,8 @@ const Bin = () => {
                 <div onClick={onClick} className={styles.wrap}>
                     <div className={styles.delete}>
                         <div className={styles.close}>
-                            <span>Are you sure to delete the song?</span>
-                            <img src="/xxxx.svg" alt="close" width={24} height={24} />
+                            <span>Are you sure ?</span>
+                            <img src="/xxxx.svg" alt="close" width={32} height={32} />
                         </div>
                         <div className={styles.buttons}>
                             <Button title={'no'} type={'secondary'} />
