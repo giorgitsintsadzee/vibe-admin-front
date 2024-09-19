@@ -1,10 +1,9 @@
-import ArtistTable from '@/app/Components/ArtistTable/ArtistTable'
 import styles from './page.module.css'
+import UserManagmentTable from '@/app/Components/UserManagmentTable/UserManagmentTable'
 
 const usermanagementPage = () => {
     return (
-        <div>
-        </div>
+            <UserManagmentTable />
     )
 }
 
