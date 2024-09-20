@@ -1,7 +1,7 @@
 'use client';
 
 import { Table } from 'antd';
-import { DeleteOutlined, EditOutlined, FolderOutlined } from '@ant-design/icons'; 
+import { DeleteOutlined, EditOutlined, FolderOutlined } from '@ant-design/icons';
 import React from 'react';
 import Padlock from '../Delete/Padlock';
 import EditPen from '../EditPen/EditPen';
@@ -87,7 +87,7 @@ const EmailTable = () => {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
-            render: (text: string) => <span>{text}</span>, 
+            render: (text: string) => <span>{text}</span>,
         },
         {
             title: 'Added date',
@@ -98,9 +98,9 @@ const EmailTable = () => {
         {
             render: (record: EmailRecord) => (
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                    <Playlist/>
-                    <Padlock/>
-                    <EditPen/>
+                    <Playlist id={record.key} />
+                    <Padlock />
+                    <EditPen />
                 </div>
             ),
         },

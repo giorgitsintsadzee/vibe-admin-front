@@ -3,7 +3,12 @@ import UserManagmentTable from '@/app/Components/UserManagmentTable/UserManagmen
 
 const usermanagementPage = () => {
     return (
+        <>
+            <h3 className={styles.users}>
+                Users
+            </h3>
             <UserManagmentTable />
+        </>
     )
 }
 
