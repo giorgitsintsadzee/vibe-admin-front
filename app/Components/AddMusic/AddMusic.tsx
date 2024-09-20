@@ -7,7 +7,7 @@ import Modal from '../Modal/Modal';
 import axios from 'axios';
 
 type FormValues = {
-    musicName: string;
+    name: string;
     file: FileList;
     cover: FileList;
 };
@@ -24,10 +24,6 @@ const AddMusic = () => {
 
     const handleDone = () => {
         const data = getValues();
-        if (!data.musicName) {
-            console.error('music name is required');
-            return;
-        }
 
     };
 
@@ -47,7 +43,7 @@ const AddMusic = () => {
             data.append('cover', values.cover[0]);
         }
 
-        data.append('musicName', values.musicName);
+        data.append('name', values.name);
 
         try {
             const token = document.cookie
@@ -55,7 +51,7 @@ const AddMusic = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibe-backend-prrr.onrender.com/files', data, {
+            await axios.post('https://vibe-backend-prrr.onrender.com/files/upload', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`
@@ -75,7 +71,7 @@ const AddMusic = () => {
             {
                 isOpen &&
                 <div className={styles.reausableModalContainer}>
-                    <form onSubmit={handleSubmit(onSubmit)} className={styles.addmusicName}>
+                    <form onSubmit={handleSubmit(onSubmit)} className={styles.addname}>
                         <Modal
                             isOpen={isOpen}
                             onClose={handleCloseModal}
@@ -86,9 +82,9 @@ const AddMusic = () => {
                                 className={styles.inputMusic}
                                 type="text"
                                 placeholder='Music name'
-                                {...register('musicName', { required: true })}
+                                {...register('name', { required: true })}
                             />
-                            {errors.musicName && <span className={styles.error}>Music name is required</span>}
+                            {errors.name && <span className={styles.error}>Music name is required</span>}
                             <div className={styles.inputFile}>
                                 <input
                                     id="file-upload"

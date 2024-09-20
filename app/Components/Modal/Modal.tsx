@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Modal.module.scss';
 import Button from '../Button/Button';
 
@@ -13,7 +13,7 @@ type Props = {
 }
 
 const Modal = (props: Props) => {
-    if (!props.isOpen) return null;
+
 
     return (
         <>
@@ -24,13 +24,13 @@ const Modal = (props: Props) => {
                         <img src="xicon.svg" alt="x" />
                     </button>
                 </div>
-                    {props.children}
+                {props.children}
                 <div className={styles.modalButton}>
                     <div className={styles.cancel} onClick={props.onClose}>
                         <Button title={'cancel'} type={'secondary'} showIcon={true} />
                     </div>
-                    <div  className={styles.done} onClick={props.onDone}>
-                        <Button  title={'done'} type={'primary'} showIcon={true} />
+                    <div className={styles.done} onClick={props.onDone}>
+                        <Button title={'done'} type={'primary'} showIcon={true} />
                     </div>
                 </div>
             </div>
