@@ -1,13 +1,16 @@
 import Link from 'next/link'
 import styles from './Playlist.module.scss'
 
-const Playlist = () => {
+type Props = {
+    id: string;
+}
 
+const Playlist = (props: Props) => {
     return (
-        <Link href='/playlist'>
+        <Link href={`/usermanagement/${props.id}`}>
             <img src="icons/playlist.svg" alt="playlistpage" />
         </Link>
     )
 }
 
-export default Playlist
+export default Playlist;
