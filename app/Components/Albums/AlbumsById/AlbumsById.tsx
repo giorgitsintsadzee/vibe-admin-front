@@ -1,4 +1,5 @@
 'use client'
+import AddMusic from "../../AddMusic/AddMusic";
 import AlbumCard from "../../AlbumCard/AlbumCard";
 import MusicCard from "../../MusicCard/MusicCard";
 import styles from './AlbumsById.module.scss'
@@ -65,36 +66,36 @@ const AlbumsById = (props: Props) => {
     ]
     return (
         <>
-            <div className={styles.container}>
-                <div className={styles.title}>Albums</div>
-                <div className={styles.albumContainer}>
-                    <div className={styles.albumImg}>
-                        <img className={styles.img} src='/albumcardimg.svg' />
-                    </div>
-                </div>
-                <div className={styles.albumText}>
-                    <div className={styles.albums}>
-                       <div>
-                       <span className={styles.albumSong}>{props.albumSong}</span>
-                       <span className={styles.albumSingerdate}>{props.albumSinger}</span>
-                       </div>
-                    
-                    </div>
-                    <span className={styles.albumSingerdate}>{props.albumDate}</span>
-                </div>
-                <div className={styles.musicCards}>
-                    {albomsmusic.map((music) => (
-                        <MusicCard
-                            imageUrl={music.imgUrl}
-                            songName={music.songName}
-                            artistName={music.artistName}
-                            key={music.id}
-                            showBin={false}
-                        />
-                    ))}
+        <div className={styles.container}>
+            <div className={styles.title}>Albums</div>
+            <div className={styles.albumContainer}>
+                <div className={styles.albumImg}>
+                    <img className={styles.img} src='/albumcardimg.svg' />
                 </div>
             </div>
-        </>
+            <div className={styles.albumText}>
+                <div className={styles.albums}>
+                   <div>
+                   <span className={styles.albumSong}>{props.albumSong}</span>
+                   <span className={styles.albumSingerdate}>{props.albumSinger}</span>
+                   </div>
+                    <AddMusic />
+                </div>
+                <span className={styles.albumSingerdate}>{props.albumDate}</span>
+            </div>
+            <div className={styles.musicCards}>
+                {albomsmusic.map((music) => (
+                    <MusicCard
+                        imageUrl={music.imgUrl}
+                        songName={music.songName}
+                        artistName={music.artistName}
+                        key={music.id}
+                        showBin={false}
+                    />
+                ))}
+            </div>
+        </div>
+    </>
     )
 }
 
