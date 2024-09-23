@@ -20,8 +20,8 @@ const Bin = () => {
                             <img src="/xxxx.svg" alt="close" width={32} height={32} />
                         </div>
                         <div className={styles.buttons}>
-                            <Button title={'no'} type={'secondary'} />
-                            <Button title={'yes'} type={'primary'} />
+                            <Button title={'no'} type={'secondary'} showIcon={false} />
+                            <Button title={'yes'} type={'primary'} showIcon={false} />
                         </div>
                     </div>
                 </div>

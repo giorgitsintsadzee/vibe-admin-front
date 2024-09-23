@@ -3,6 +3,7 @@ import styles from './page.module.css'
 import TrendHits from '../Components/TrendHits/TrendHits';
 import Albums from '../Components/Albums/Albums';
 import PopularArtist from '../Components/PopularArtist/PopularArtist';
+import AddMusic from '../Components/AddMusic/AddMusic';
 export default function Home() {
     return (
         <>
