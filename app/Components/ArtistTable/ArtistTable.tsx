@@ -1,7 +1,6 @@
 'use client';
 
 import { Table } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import Bin from '../Bin/Bin';
 import AddAlbums from '../AddAlbums/AddAlbums';
 
@@ -88,10 +87,10 @@ const ArtistTable = () => {
         {
             title: 'Actions',
             key: 'actions',
-            render: (record: ArtistRecord) => (
+            render: () => (
                 <div style={{ display: 'flex', gap: '10px' }}>
-                    <AddAlbums/>
-                    <Bin/>
+                    <AddAlbums />
+                    <Bin />
                 </div>
             ),
         },

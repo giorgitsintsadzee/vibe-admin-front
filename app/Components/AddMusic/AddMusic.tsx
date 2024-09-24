@@ -14,7 +14,7 @@ type FormValues = {
 
 const AddMusic = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<FormValues>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>(); 
 
     const [musicFileName, setMusicFileName] = useState('');
     const [coverFileName, setCoverFileName] = useState('');
@@ -28,14 +28,11 @@ const AddMusic = () => {
     };
 
     const handleDone = async () => {
-        const data = getValues();
-
     };
 
 
     const onSubmit: SubmitHandler<FormValues> = async (values: FormValues) => {
         console.log(values);
-
 
         const data = new FormData();
         data.append('name', values.name);
@@ -52,7 +49,6 @@ const AddMusic = () => {
             
         }
 
-
         try {
             const token = document.cookie
                 .split('; ')
@@ -67,9 +63,8 @@ const AddMusic = () => {
             }).then(() => {
                 setIsOpen(false)
             })
-            // setIsOpen(false);
         } catch (error) {
-            console.error('Error uplokjdfhgsjifhskading files:', error);
+            console.error('Error uploading files:', error);
         }
     };
 
@@ -119,7 +114,6 @@ const AddMusic = () => {
                                      <img className={styles.uploadIcon} src="/uploadfile.svg" alt="file" />
                                     {musicFileName || 'Upload music - Mp3'}
                                 </label>
-                               
                             </div>
                             <div className={styles.inputFile}>
                                 <input
@@ -133,7 +127,6 @@ const AddMusic = () => {
                                 <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
                                     {coverFileName || 'Upload music cover'}
                                 </label>
-                            
                             </div>
                         </Modal>
                     </form>

@@ -1,8 +1,6 @@
 'use client';
 import { Table } from 'antd';
 import React from 'react';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import EditPen from '../EditPen/EditPen';
 import Bin from '../Bin/Bin';
 import EditPlaylist from '../EditPlaylist/EditPlaylist';
 

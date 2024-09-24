@@ -1,4 +1,3 @@
-import styles from './EditPen.module.scss'
 
 const EditPen = () => {
     return (

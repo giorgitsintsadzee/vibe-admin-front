@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import styles from './Delete.module.scss'
 
 const Padlock = () => {
     const [isLocked, setIsLocked] = useState(false)

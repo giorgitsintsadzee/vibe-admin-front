@@ -1,10 +1,8 @@
 'use client';
 
 import { Table } from 'antd';
-import { DeleteOutlined, EditOutlined, FolderOutlined } from '@ant-design/icons';
 import React from 'react';
 import Padlock from '../Delete/Padlock';
-import EditPen from '../EditPen/EditPen';
 import Playlist from '../Playlist/Playlist';
 import ChangePassword from '../ChangePassword/ChangePassword';
 

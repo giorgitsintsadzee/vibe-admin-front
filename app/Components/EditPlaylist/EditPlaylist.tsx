@@ -2,7 +2,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useState } from 'react';
 import styles from './EditPlaylist.module.scss';
-import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
 import axios from 'axios';
 import EditPen from '../EditPen/EditPen';
@@ -13,7 +12,7 @@ type FormValues = {
 
 const EditPlaylist = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<FormValues>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>();
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => {
@@ -21,18 +20,10 @@ const EditPlaylist = () => {
         reset();
     };
 
-    const handleDone = () => {
-        const data = getValues();
-
-    };
-
-
     const onSubmit: SubmitHandler<FormValues> = async (values: FormValues) => {
         console.log(values);
 
-
         const data = new FormData();
-
         data.append('Name', values.Name);
 
         try {
@@ -56,7 +47,7 @@ const EditPlaylist = () => {
     return (
         <>
             <div onClick={handleOpenModal}>
-                <EditPen  />
+                <EditPen />
             </div>
             {
                 isOpen &&
@@ -65,20 +56,18 @@ const EditPlaylist = () => {
                         <Modal
                             isOpen={isOpen}
                             onClose={handleCloseModal}
-                            onDone={handleDone}
-                            title=' Edit playlist'>
-                            <span className={styles.musicText}>name</span>
+                            onDone={handleCloseModal}  // Replaced handleDone with handleCloseModal
+                            title='Edit playlist'>
+                            <span className={styles.musicText}>Name</span>
                             <input
                                 className={styles.inputMusic}
                                 type="text"
-                                placeholder='playlist name'
+                                placeholder='Playlist name'
                                 {...register('Name', { required: true })}
                             />
-                            {errors.Name && <span className={styles.error}>name is required</span>}
-                           
+                            {errors.Name && <span className={styles.error}>Name is required</span>}
                         </Modal>
                     </form>
-
                 </div>
             }
         </>
@@ -86,4 +75,3 @@ const EditPlaylist = () => {
 }
 
 export default EditPlaylist;
-

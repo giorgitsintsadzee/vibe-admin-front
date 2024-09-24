@@ -1,6 +1,5 @@
 'use client'
 import AddMusic from "../../AddMusic/AddMusic";
-import AlbumCard from "../../AlbumCard/AlbumCard";
 import MusicCard from "../../MusicCard/MusicCard";
 import styles from './AlbumsById.module.scss'
 

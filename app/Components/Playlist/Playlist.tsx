@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import styles from './Playlist.module.scss'
 
 type Props = {
     id: string;
