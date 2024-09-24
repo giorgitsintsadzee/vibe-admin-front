@@ -3,6 +3,7 @@
 import { Table } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import Bin from '../Bin/Bin';
+import AddAlbums from '../AddAlbums/AddAlbums';
 
 type ArtistRecord = {
     key: string;
@@ -89,7 +90,7 @@ const ArtistTable = () => {
             key: 'actions',
             render: (record: ArtistRecord) => (
                 <div style={{ display: 'flex', gap: '10px' }}>
-                    <EditOutlined style={{ fontSize: '20px', }} />
+                    <AddAlbums/>
                     <Bin/>
                 </div>
             ),

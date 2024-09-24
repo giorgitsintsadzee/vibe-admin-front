@@ -4,6 +4,7 @@ import React from 'react';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import EditPen from '../EditPen/EditPen';
 import Bin from '../Bin/Bin';
+import EditPlaylist from '../EditPlaylist/EditPlaylist';
 
 type SongRecord = {
     key: string;
@@ -72,7 +73,7 @@ const PlaylistTable = () => {
             key: 'actions',
             render: () => (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                    <EditPen/>
+                    <EditPlaylist/>
                     <Bin/>
                 </div>
             ),

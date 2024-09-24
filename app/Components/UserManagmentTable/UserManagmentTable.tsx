@@ -6,6 +6,7 @@ import React from 'react';
 import Padlock from '../Delete/Padlock';
 import EditPen from '../EditPen/EditPen';
 import Playlist from '../Playlist/Playlist';
+import ChangePassword from '../ChangePassword/ChangePassword';
 
 type EmailRecord = {
     key: string;
@@ -100,7 +101,7 @@ const EmailTable = () => {
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
                     <Playlist id={record.key} />
                     <Padlock />
-                    <EditPen />
+                    <ChangePassword />
                 </div>
             ),
         },

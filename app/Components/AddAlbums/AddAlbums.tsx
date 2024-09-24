@@ -1,20 +1,18 @@
 'use client'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useState } from 'react';
-import styles from './AddArtist.module.scss';
-import Button from '../Button/Button';
+import styles from './AddAlbums.module.scss';
 import Modal from '../Modal/Modal';
 import axios from 'axios';
 
 type FormValues = {
     name: string;
     photo: FileList;
-    lastName: string;
-    AddBiography: string;
     Year: string;
+    artistName: string
 };
 
-const AddArtist = () => {
+const AddAlbums = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<FormValues>();
 
@@ -41,14 +39,9 @@ const AddArtist = () => {
         const data = new FormData();
 
         data.append('musicName', values.name);
-        if (values.lastName.length > 0) {
-            data.append('lastName', values.lastName[0]);
-        }
+
         if (values.Year.length > 0) {
             data.append('Year', values.Year[0]);
-        }
-        if (values.AddBiography.length > 0) {
-            data.append('AddBiography', values.AddBiography[0]);
         }
         if (values.photo.length > 0) {
             data.append('photo', values.photo[0]);
@@ -75,7 +68,7 @@ const AddArtist = () => {
     return (
         <>
             <div onClick={handleOpenModal}>
-                <Button title={'Add Artist'} type={'primary'} showIcon={false} />
+                <img src='/icons/addAlbum.svg' />
             </div>
             {
                 isOpen &&
@@ -89,29 +82,29 @@ const AddArtist = () => {
 
                             <div className={styles.userInfo}>
                                 <div className={styles.names}>
-                                    <span className={styles.musicText}>Name</span>
-                                    <span className={styles.musicText}>last name</span>
+                                    <span className={styles.musicText}>Album Name</span>
                                 </div>
                                 <div className={styles.artistName}>
                                     <input
                                         className={styles.inputMusic}
                                         type="text"
-                                        placeholder='artist name'
+                                        placeholder='Album Name'
                                         {...register('name', { required: 'Artist name is required' })}
                                     />
-
+                                </div>
+                                <div className={styles.names}>
+                                    <span className={styles.musicText}>Artist Name</span>
+                                </div>
+                                <div className={styles.artistName}>
                                     <input
                                         className={styles.inputMusic}
                                         type="text"
-                                        placeholder='artist last name'
-                                        {...register('lastName', { required: 'Last name is required' })}
+                                        placeholder='Artist Name'
+                                        {...register('name', { required: 'Artist name is required' })}
                                     />
-
-
                                 </div>
                                 <div className={styles.errorName}>
                                     {errors.name && <span className={styles.error}>artist name is required</span>}
-                                    {errors.lastName && <span className={styles.error}>{errors.lastName.message}</span>}
                                 </div>
                             </div>
 
@@ -125,29 +118,16 @@ const AddArtist = () => {
                                         {...register('Year')}
                                     />
                                 </div>
-
-                                <div className={styles.yearbio}>
-                                    <span className={styles.musicText}>Add Biography</span>
-                                    <div className={styles.inputWrapper}>
-                                        <input
-                                            className={`${styles.inputB} ${styles.biography}`}
-                                            type="text"
-                                            placeholder='Add Biography'
-                                            {...register('AddBiography')}
-                                        />
-
-                                    </div>
-                                </div>
                             </div>
 
                             <div className={styles.inputFile}>
                                 <input
-                                    id="upload-artist-photo"
+                                    id="upload-album-cover"
                                     type="file"
                                     {...register('photo', { required: 'Photo is required' })} />
                                 <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
-                                <label className={styles.uploadLabel} htmlFor="upload-artist-photo">
-                                    Upload artist photo
+                                <label className={styles.uploadLabel} htmlFor="upload-album-cover">
+                                    Upload album cover
                                 </label>
                                 {errors.photo && <span className={styles.error}>{errors.photo.message}</span>}
 
@@ -161,4 +141,4 @@ const AddArtist = () => {
     );
 }
 
-export default AddArtist;
+export default AddAlbums;

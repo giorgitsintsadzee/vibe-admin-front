@@ -5,6 +5,7 @@ import styles from './EditPlaylist.module.scss';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
 import axios from 'axios';
+import EditPen from '../EditPen/EditPen';
 
 type FormValues = {
     Name: string;
@@ -55,7 +56,7 @@ const EditPlaylist = () => {
     return (
         <>
             <div onClick={handleOpenModal}>
-                <Button title={'edit playlist name'} type={'primary'} showIcon={false} />
+                <EditPen  />
             </div>
             {
                 isOpen &&
@@ -65,12 +66,12 @@ const EditPlaylist = () => {
                             isOpen={isOpen}
                             onClose={handleCloseModal}
                             onDone={handleDone}
-                            title=' Add Music'>
-                            <span className={styles.musicText}>Edit playlist</span>
+                            title=' Edit playlist'>
+                            <span className={styles.musicText}>name</span>
                             <input
                                 className={styles.inputMusic}
                                 type="text"
-                                placeholder='Name'
+                                placeholder='playlist name'
                                 {...register('Name', { required: true })}
                             />
                             {errors.Name && <span className={styles.error}>name is required</span>}

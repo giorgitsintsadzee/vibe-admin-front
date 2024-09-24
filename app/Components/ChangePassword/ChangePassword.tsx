@@ -5,6 +5,7 @@ import styles from './ChangePassword.module.scss';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
 import axios from 'axios';
+import EditPen from '../EditPen/EditPen';
 
 type FormValues = {
     oldPassword: string;
@@ -58,7 +59,7 @@ const ChangePassword = () => {
     return (
         <>
             <div onClick={handleOpenModal}>
-                <Button title={'change password'} type={'primary'} showIcon={false} />
+                <EditPen />
             </div>
             {
                 isOpen &&
