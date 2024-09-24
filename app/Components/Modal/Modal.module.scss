@@ -1,0 +1,90 @@
+@import '../../styles/colors.scss';
+
+.reusableModal {
+    display: flex;
+    width: 568px;
+    padding: 24px;
+    flex-direction: column;
+    gap: 12px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #000;
+}
+
+.cancel {
+    flex: 1;
+}
+
+.done {
+    flex: 1;
+}
+
+.addPlaylist {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+}
+
+.addPlaylistText {
+    color: $white;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.addPlaylistIcon {
+    display: flex;
+    transform: rotate(90deg);
+    padding: 4px;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid #232934;
+    background: #0E1117;
+    cursor: pointer;
+}
+
+.addPlaylistTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4px;
+    flex: 1 0 0;
+}
+
+.playlistText {
+    color: $white;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+}
+
+.inputPlaylist {
+    height: 44px;
+    padding: 12px;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid #232934;
+    background: #000;
+    width: 316px;
+
+}
+
+.inputPlaylist::placeholder {
+    color: #7B819D;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+}
+
+.inputPlaylist:focus {
+    color: $white;
+}
+
+.modalButton {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}

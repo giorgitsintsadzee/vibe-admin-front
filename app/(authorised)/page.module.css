@@ -18,12 +18,13 @@
 
 .container {
     display: flex;
-    width: 100%;
     flex-direction: column;
-    position: relative;
-    padding-left: 15px;
-    height: 400px;
+    width: 100%;
+    /* position: relative;
+    padding-left: 15px; */
+    /* height: 100vh; */
     padding: 10px;
+    margin-bottom: 90px;
 }
 
 .albumsPage{

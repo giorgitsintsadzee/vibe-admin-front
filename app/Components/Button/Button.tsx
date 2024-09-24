@@ -4,6 +4,7 @@ type Props = {
     title: string;
     type: "primary" | "secondary";
     width?: string;
+    showIcon: boolean;
 }
 
 const Button = (props: Props) => {
@@ -16,7 +17,10 @@ const Button = (props: Props) => {
     return (
         <button
             style={{ width: `${props.width}` }} className={classes.join(' ').trim()}>
-            {props.title}
+            <div className={styles.icon}>
+            {props.showIcon ? '' : <img src="/addmusic.svg" alt="icon" />}
+                {props.title}
+            </div>
         </button>
     )
 }
