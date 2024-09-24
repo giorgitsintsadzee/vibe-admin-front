@@ -59,7 +59,7 @@ const AddMusic = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend.onrender.com/music/upload', data, {
+            await axios.post(`https://vibetunes-backend.onrender.com/music/upload`, data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`
