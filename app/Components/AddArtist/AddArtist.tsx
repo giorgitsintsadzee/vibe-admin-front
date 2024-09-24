@@ -18,10 +18,13 @@ const AddArtist = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<FormValues>();
 
+    const [coverFileName, setCoverFileName] = useState('');
+
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => {
         setIsOpen(false);
         reset();
+        setCoverFileName('');
     };
 
     const handleDone = () => {
@@ -69,6 +72,12 @@ const AddArtist = () => {
             setIsOpen(false);
         } catch (error) {
             console.error('Error uploading files:', error);
+        }
+    };
+
+    const handleCoverFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setCoverFileName(event.target.files[0].name);
         }
     };
 
@@ -135,9 +144,7 @@ const AddArtist = () => {
                                             placeholder='Add Biography'
                                             {...register('AddBiography')}
                                         />
-
                                     </div>
-
                                 </div>
                             </div>
 
@@ -145,10 +152,14 @@ const AddArtist = () => {
                                 <input
                                     id="upload-artist-photo"
                                     type="file"
-                                    {...register('photo', { required: 'Photo is required' })} />
-                                <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
+                                    {...register('photo', { required: 'Photo is required' })}
+                                    onChange={handleCoverFileChange}
+                                />
+
+
                                 <label className={styles.uploadLabel} htmlFor="upload-artist-photo">
-                                    Upload artist photo
+                                    <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
+                                    {coverFileName || 'Upload artist photo'}
                                 </label>
                                 {errors.photo && <span className={styles.error}>{errors.photo.message}</span>}
 
@@ -162,4 +173,4 @@ const AddArtist = () => {
     );
 }
 
-export default AddArtist;
+export default AddArtist;  
