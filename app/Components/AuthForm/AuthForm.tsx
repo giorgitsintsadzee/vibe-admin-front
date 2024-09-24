@@ -108,7 +108,6 @@ const AuthForm = () => {
                 <div className={styles.buttonWrapper}>
                     <Button title="Sign in" type="primary" showIcon={true} />
                 </div>
-                <a className={styles.signUpText} href="/register">Don&apos;t have an account? Sign up</a>
             </div>
         </form>
     );
