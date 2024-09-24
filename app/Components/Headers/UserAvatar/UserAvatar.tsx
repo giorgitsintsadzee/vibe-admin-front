@@ -12,6 +12,11 @@ const UserAvatar = (props: Props) => {
     const onClick = () => {
         setUserIn(!userIn)
     }
+
+    const handleLogOut = () => {
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'; 
+        window.location.reload(); 
+    };
     return (
         <>
             <div className={styles.container}>
@@ -20,7 +25,7 @@ const UserAvatar = (props: Props) => {
                     <div className={styles.wrapper} onClick={onClick}>
                         <div className={styles.userWindow} >
                             {props.gmail}
-                            <div className={styles.longOut}>
+                            <div className={styles.longOut} onClick={handleLogOut}>
                                 <img src='/longout icoon.svg' alt='long out button' width={24} height={24} />
                                 <a href='/authorisation'> <span>Log out</span> </a>
                             </div>
