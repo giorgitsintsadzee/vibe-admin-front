@@ -70,7 +70,7 @@ const PlaylistTable = () => {
             title: '',
             key: 'actions',
             render: () => (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                <div style={{ display: 'flex',  justifyContent: 'flex-end' }}>
                     <EditPlaylist/>
                     <Bin/>
                 </div>
