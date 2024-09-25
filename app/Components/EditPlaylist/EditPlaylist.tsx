@@ -2,17 +2,13 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useState } from 'react';
 import styles from './EditPlaylist.module.scss';
-import Modal from '../Modal/Modal';
 import axios from 'axios';
 import EditPen from '../EditPen/EditPen';
-
-type FormValues = {
-    Name: string;
-};
+import Button from '../Button/Button';
 
 const EditPlaylist = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<any>();
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => {
@@ -20,11 +16,17 @@ const EditPlaylist = () => {
         reset();
     };
 
-    const onSubmit: SubmitHandler<FormValues> = async (values: FormValues) => {
+    const handleDone = () => {
+        setIsOpen(false);
+        reset();
+    };
+
+
+    const onSubmit: SubmitHandler<any> = async (values: any) => {
         console.log(values);
 
         const data = new FormData();
-        data.append('Name', values.Name);
+        data.append('Name', values.name);
 
         try {
             const token = document.cookie
@@ -32,15 +34,20 @@ const EditPlaylist = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend-prrr.onrender.com/files/upload', data, {
+            const response = await axios.patch('https://vibetunes-backend.onrender.com/playlist', data, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
-            })
+            });
+
+            // if (response.status !== 200) {
+            //     throw new Error('Network response was not ok');
+            // }
+            handleDone();
+        } finally {
+            // handleDone() ;
             setIsOpen(false);
-        } catch (error) {
-            console.error('Error', error);
         }
     };
 
@@ -52,22 +59,32 @@ const EditPlaylist = () => {
             {
                 isOpen &&
                 <div className={styles.reausableModalContainer}>
-                    <form onSubmit={handleSubmit(onSubmit)} className={styles.addname}>
-                        <Modal
-                            isOpen={isOpen}
-                            onClose={handleCloseModal}
-                            onDone={handleCloseModal}  // Replaced handleDone with handleCloseModal
-                            title='Edit playlist'>
+                    <div className={styles.reusableModal}>
+                    <div className={styles.addPlaylist}>
+                            <span className={styles.addPlaylistText}>EditPlaylist</span>
+                            <button onClick={handleCloseModal} className={styles.addPlaylistIcon}>
+                                <img src="/xicon.svg" alt="x" />
+                            </button>
+                        </div>
+                        <form onSubmit={handleSubmit(onSubmit)} className={styles.addname}>
                             <span className={styles.musicText}>Name</span>
                             <input
                                 className={styles.inputMusic}
                                 type="text"
                                 placeholder='Playlist name'
-                                {...register('Name', { required: true })}
+                                {...register('name', { required: true })}
                             />
-                            {errors.Name && <span className={styles.error}>Name is required</span>}
-                        </Modal>
-                    </form>
+                            {errors.name && <span className={styles.error}>Name is required</span>}
+                            <div className={styles.modalButton}>
+                                <div className={styles.cancel} onClick={handleCloseModal}>
+                                    <Button title={'cancel'} type={'secondary'} showIcon={true} />
+                                </div>
+                                <div className={styles.done}>
+                                    <Button title={'done'} type={'primary'} showIcon={true} />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             }
         </>

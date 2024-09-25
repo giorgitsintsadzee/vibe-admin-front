@@ -3,20 +3,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useState } from 'react';
 import styles from './AddArtist.module.scss';
 import Button from '../Button/Button';
-import Modal from '../Modal/Modal';
 import axios from 'axios';
 
-type FormValues = {
-    name: string;
-    photo: FileList;
-    lastName: string;
-    AddBiography: string;
-    Year: string;
-};
 
 const AddArtist = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<FormValues>();
+    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<any>();
 
     const [coverFileName, setCoverFileName] = useState('');
 
@@ -33,29 +25,23 @@ const AddArtist = () => {
             console.error('music name is required');
             return;
         }
-
+        setIsOpen(false);
+        setCoverFileName('');
+        reset();
     };
 
 
-    const onSubmit: SubmitHandler<FormValues> = async (values: FormValues) => {
+    const onSubmit: SubmitHandler<any> = async (values: any) => {
         console.log(values);
 
 
         const data = new FormData();
 
         data.append('musicName', values.name);
-        if (values.lastName.length > 0) {
-            data.append('lastName', values.lastName[0]);
-        }
-        if (values.Year.length > 0) {
-            data.append('Year', values.Year[0]);
-        }
-        if (values.AddBiography.length > 0) {
-            data.append('AddBiography', values.AddBiography[0]);
-        }
-        if (values.photo.length > 0) {
-            data.append('photo', values.photo[0]);
-        }
+        data.append('lastName', values.lastName[0]);
+        data.append('Year', values.Year[0]);
+        data.append('AddBiography', values.AddBiography[0]);
+        data.append('photo', values.photo[0]);
 
         try {
             const token = document.cookie
@@ -63,15 +49,21 @@ const AddArtist = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend-prrr.onrender.com/files/upload', data, {
+            const response = await axios.post('https://vibetunes-backend.onrender.com/files/upload', data, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`
                 }
-            })
-            setIsOpen(false);
-        } catch (error) {
-            console.error('Error uploading files:', error);
+            });
+
+            // if (response.status !== 200) {
+            //     throw new Error('Network response was not ok');
+            // }
+            // handleDone();
+           
+        } 
+        finally {
+            handleDone();
+            // setIsOpen(false);
         }
     };
 
@@ -89,13 +81,14 @@ const AddArtist = () => {
             {
                 isOpen &&
                 <div className={styles.reausableModalContainer}>
-                    <form onSubmit={handleSubmit(onSubmit)} className={styles.addmusicName}>
-                        <Modal
-                            isOpen={isOpen}
-                            onClose={handleCloseModal}
-                            onDone={handleDone}
-                            title=' Add Artist'>
-
+                    <div className={styles.reusableModal}>
+                        <div className={styles.addPlaylist}>
+                            <span className={styles.addPlaylistText}>Add Artist</span>
+                            <button onClick={handleCloseModal} className={styles.addPlaylistIcon}>
+                                <img src="xicon.svg" alt="x" />
+                            </button>
+                        </div>
+                        <form onSubmit={handleSubmit(onSubmit)} className={styles.addmusicName}>
                             <div className={styles.userInfo}>
                                 <div className={styles.names}>
                                     <span className={styles.musicText}>Name</span>
@@ -120,7 +113,7 @@ const AddArtist = () => {
                                 </div>
                                 <div className={styles.errorName}>
                                     {errors.name && <span className={styles.error}>artist name is required</span>}
-                                    {errors.lastName && <span className={styles.error}>{errors.lastName.message}</span>}
+                                    {errors.lastName && <span className={styles.error}>last name is required</span>}
                                 </div>
                             </div>
 
@@ -156,21 +149,27 @@ const AddArtist = () => {
                                     onChange={handleCoverFileChange}
                                 />
 
-
                                 <label className={styles.uploadLabel} htmlFor="upload-artist-photo">
                                     <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
                                     {coverFileName || 'Upload artist photo'}
                                 </label>
-                                {errors.photo && <span className={styles.error}>{errors.photo.message}</span>}
+                                {errors.photo && <span className={styles.error}>artist photo is required</span>}
 
                             </div>
-                        </Modal>
-                    </form>
-
+                            <div className={styles.modalButton}>
+                                <div className={styles.cancel} >
+                                    <Button title={'cancel'} type={'secondary'} showIcon={true} />
+                                </div>
+                                <div className={styles.done}>
+                                    <Button title={'done'} type={'primary'} showIcon={true} />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             }
         </>
     );
 }
 
-export default AddArtist;  
+export default AddArtist;
