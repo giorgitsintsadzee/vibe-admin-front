@@ -59,7 +59,6 @@ const AddAlbums = () => {
 
             await axios.post('https://vibetunes-backend.onrender.com/album', data, {
                 headers: {
-                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
             });
