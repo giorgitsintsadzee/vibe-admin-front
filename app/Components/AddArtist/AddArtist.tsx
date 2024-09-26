@@ -5,11 +5,18 @@ import styles from './AddArtist.module.scss';
 import Button from '../Button/Button';
 import axios from 'axios';
 
+type ArtistFormData = {
+    name: string;
+    lastName: string;
+    Year: number;
+    AddBiography: string;
+    photo: FileList;
+}
 
 const AddArtist = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<any>();
-    
+    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<ArtistFormData>();
+
     const [file, setFile] = useState<File | null>(null);
     const [coverFileName, setCoverFileName] = useState('');
 
@@ -17,7 +24,7 @@ const AddArtist = () => {
     const handleCloseModal = () => {
         setIsOpen(false);
         reset();
-        setFile(null);  
+        setFile(null);
         setCoverFileName('');
     };
 
@@ -32,16 +39,16 @@ const AddArtist = () => {
         reset();
     };
 
-    const onSubmit: SubmitHandler<any> = async (values: any) => {
+    const onSubmit: SubmitHandler<ArtistFormData> = async (values: ArtistFormData) => {
         const data = new FormData();
-        data.append('musicName', values.name);
+        data.append('name', values.name);
         data.append('lastName', values.lastName);
-        data.append('Year', values.Year);
+        data.append('Year', values.Year.toString() || '');
         data.append('AddBiography', values.AddBiography);
-        
+
 
         if (file) {
-            data.append('photo', file);  
+            data.append('photo', file);
         } else {
             console.error("No photo file selected");
             return;
@@ -66,7 +73,7 @@ const AddArtist = () => {
 
     const handleCoverFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
-            setFile(event.target.files[0]);  
+            setFile(event.target.files[0]);
             setCoverFileName(event.target.files[0].name);
         }
     };
@@ -118,10 +125,17 @@ const AddArtist = () => {
                                     <span className={styles.musicText}>Year</span>
                                     <input
                                         className={styles.inputMusic}
-                                        type="text"
-                                        placeholder='Year'
-                                        {...register('Year')}
+                                        type="number"
+                                        placeholder='Year (4 digits)'
+                                        {...register('Year', {
+                                            required: 'Year is required',
+                                            pattern: {
+                                                value: /^\d{4}$/,
+                                                message: 'Year must be exactly 4 digits'
+                                            }
+                                        })}
                                     />
+                                    {errors.Year && <span className={styles.error}>{errors.Year.message}</span>}
                                 </div>
 
                                 <div className={styles.yearbio}>
@@ -142,7 +156,7 @@ const AddArtist = () => {
                                     id="upload-artist-photo"
                                     type="file"
                                     {...register('photo', { required: 'Photo is required' })}
-                                    onChange={handleCoverFileChange}  
+                                    onChange={handleCoverFileChange}
                                 />
 
                                 <label className={styles.uploadLabel} htmlFor="upload-artist-photo">
@@ -152,7 +166,7 @@ const AddArtist = () => {
                                 {errors.photo && <span className={styles.error}>artist photo is required</span>}
                             </div>
                             <div className={styles.modalButton}>
-                                <div className={styles.cancel} >
+                                <div className={styles.cancel} onClick={handleCloseModal} >
                                     <Button title={'cancel'} type={'secondary'} showIcon={true} />
                                 </div>
                                 <div className={styles.done}>

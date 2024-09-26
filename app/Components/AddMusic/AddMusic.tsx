@@ -5,10 +5,16 @@ import styles from './AddMusic.module.scss';
 import Button from '../Button/Button';
 import axios from 'axios';
 
+type MusicFormData = {
+    name: string;
+    musicPhotos: FileList;
+    file: FileList;
+}
+
 
 const AddMusic = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<any>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<MusicFormData>();
 
     const [musicFileName, setMusicFileName] = useState('');
     const [coverFileName, setCoverFileName] = useState('');
@@ -26,7 +32,7 @@ const AddMusic = () => {
         reset();
     };
 
-    const onSubmit: SubmitHandler<any> = async (values: any) => {
+    const onSubmit: SubmitHandler<MusicFormData> = async (values: MusicFormData) => {
         console.log(values);
 
         const data = new FormData();
@@ -50,7 +56,7 @@ const AddMusic = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            const response = await axios.post('https://vibetunes-backend.onrender.com/music/upload', data, {
+           await axios.post('https://vibetunes-backend.onrender.com/music/upload', data, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
@@ -131,7 +137,7 @@ const AddMusic = () => {
                             </div>
 
                             <div className={styles.modalButton}>
-                                <div className={styles.cancel} >
+                                <div className={styles.cancel} onClick={handleCloseModal}>
                                     <Button title={'cancel'} type={'secondary'} showIcon={true} />
                                 </div>
                                 <div className={styles.done}>

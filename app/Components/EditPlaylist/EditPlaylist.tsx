@@ -6,9 +6,13 @@ import axios from 'axios';
 import EditPen from '../EditPen/EditPen';
 import Button from '../Button/Button';
 
+type EditListFormData = {
+    name: string;
+}
+
 const EditPlaylist = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<any>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<EditListFormData>();
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => {
@@ -22,11 +26,11 @@ const EditPlaylist = () => {
     };
 
 
-    const onSubmit: SubmitHandler<any> = async (values: any) => {
+    const onSubmit: SubmitHandler<EditListFormData> = async (values: EditListFormData) => {
         console.log(values);
 
         const data = new FormData();
-        data.append('Name', values.name);
+        data.append('name', values.name);
 
         try {
             const token = document.cookie
@@ -34,7 +38,7 @@ const EditPlaylist = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            const response = await axios.patch('https://vibetunes-backend.onrender.com/playlist', data, {
+            await axios.patch('https://vibetunes-backend.onrender.com/playlist', data, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`

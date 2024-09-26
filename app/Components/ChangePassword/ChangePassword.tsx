@@ -6,11 +6,16 @@ import axios from 'axios';
 import EditPen from '../EditPen/EditPen';
 import Button from '../Button/Button';
 
+type PasswordFormData = {
+    newPassword: string;
+    confirmPassword: string;
+}
+
 
 
 const ChangePassword = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<any>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<PasswordFormData>();
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => {
@@ -22,11 +27,10 @@ const ChangePassword = () => {
         setIsOpen(false);
         reset();
     };
-    const onSubmit: SubmitHandler<any> = async (values: any) => {
+    const onSubmit: SubmitHandler<PasswordFormData> = async (values: PasswordFormData) => {
         console.log(values);
 
         const data = new FormData();
-        data.append('currentPassword', values.currentPassword);
         data.append('newPassword', values.newPassword);
         data.append('confirmPassword', values.confirmPassword);
 
@@ -36,7 +40,7 @@ const ChangePassword = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            const response = await axios.patch(`https://vibetunes-backend.onrender.com/users/change-password`, data, {
+            await axios.patch(`https://vibetunes-backend.onrender.com/users/change-password`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
@@ -69,16 +73,6 @@ const ChangePassword = () => {
                             </button>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)} className={styles.addname}>
-                        <div className={styles.inputChange}>
-                                <span className={styles.musicText}>Old Password</span>
-                                <input
-                                    className={styles.inputMusic}
-                                    type="password"
-                                    placeholder='Old password'
-                                    {...register('currentPassword', { required: 'current Password is required' })}
-                                />
-                                {errors.oldPassword && <span className={styles.error}>Old password is required'</span>}
-                            </div>
 
                             <div className={styles.inputChange}>
                                 <span className={styles.musicText}>New Password</span>
@@ -99,10 +93,10 @@ const ChangePassword = () => {
                                     placeholder='Confirm new password'
                                     {...register('confirmPassword', { required: 'Confirm password is required' })}
                                 />
-                                {errors.confirmNewPassword && <span className={styles.error}>Confirm password is required</span>}
+                                {errors.confirmPassword && <span className={styles.error}>Confirm password is required</span>}
                             </div>
                             <div className={styles.modalButton}>
-                                <div className={styles.cancel}>
+                                <div className={styles.cancel} onClick={handleCloseModal}>
                                     <Button title={'cancel'} type={'secondary'} showIcon={true} />
                                 </div>
                                 <div className={styles.done} >

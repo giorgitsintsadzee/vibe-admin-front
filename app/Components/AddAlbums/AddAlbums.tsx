@@ -5,9 +5,17 @@ import styles from './AddAlbums.module.scss';
 import axios from 'axios';
 import Button from '../Button/Button';
 
+type AlbumsFormData = {
+    artistName: string;
+    albumName: string;
+    Year: number;
+    AddBiography: string;
+    photo: FileList;
+}
+
 const AddAlbums = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<any>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<AlbumsFormData>();
 
     const [albumCover, setAlbumCover] = useState('');
 
@@ -18,23 +26,19 @@ const AddAlbums = () => {
     };
 
     const handleDone = () => {
-        const data = getValues();
-        if (!data.name) {
-            console.error('music name is required');
-            return;
-        }
         setIsOpen(false);
         reset();
     };
 
 
-    const onSubmit: SubmitHandler<any> = async (values: any) => {
+    const onSubmit: SubmitHandler<AlbumsFormData> = async (values: AlbumsFormData) => {
         console.log(values);
 
         const data = new FormData();
-        data.append('musicName', values.name);
-        data.append('Year', values.Year[0]);
+        data.append('name', values.artistName);
+        data.append('Year', values.Year.toString() || '');
         data.append('photo', values.photo[0]);
+        data.append('name', values.albumName);
 
 
         try {
@@ -43,7 +47,7 @@ const AddAlbums = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            const response = await axios.post('https://vibetunes-backend.onrender.com/playlist', data, {
+            await axios.post('https://vibetunes-backend.onrender.com/playlist', data, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
@@ -92,7 +96,7 @@ const AddAlbums = () => {
                                         className={styles.inputMusic}
                                         type="text"
                                         placeholder='Album Name'
-                                        {...register('name', { required: 'Artist name is required' })}
+                                        {...register('albumName', { required: 'Artist name is required' })}
                                     />
                                 </div>
                                 <div className={styles.names}>
@@ -103,11 +107,11 @@ const AddAlbums = () => {
                                         className={styles.inputMusic}
                                         type="text"
                                         placeholder='Artist Name'
-                                        {...register('name', { required: 'Artist name is required' })}
+                                        {...register('artistName', { required: 'Artist name is required' })}
                                     />
                                 </div>
                                 <div className={styles.errorName}>
-                                    {errors.name && <span className={styles.error}>artist name is required</span>}
+                                    {errors.artistName && <span className={styles.error}>artist name is required</span>}
                                 </div>
                             </div>
 
@@ -116,10 +120,17 @@ const AddAlbums = () => {
                                     <span className={styles.musicText}>Year</span>
                                     <input
                                         className={styles.inputMusic}
-                                        type="text"
-                                        placeholder='Year'
-                                        {...register('Year')}
+                                        type="number"
+                                        placeholder='Year (4 digits)'
+                                        {...register('Year', {
+                                            required: 'Year is required',
+                                            pattern: {
+                                                value: /^\d{4}$/,
+                                                message: 'Year must be exactly 4 digits'
+                                            }
+                                        })}
                                     />
+                                    {errors.Year && <span className={styles.error}>{errors.Year.message}</span>}
                                 </div>
                             </div>
 
@@ -139,7 +150,7 @@ const AddAlbums = () => {
 
                             </div>
                             <div className={styles.modalButton}>
-                                <div className={styles.cancel}>
+                                <div className={styles.cancel} onClick={handleCloseModal}>
                                     <Button title={'cancel'} type={'secondary'} showIcon={true} />
                                 </div>
                                 <div className={styles.done} >
