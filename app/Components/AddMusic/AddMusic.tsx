@@ -3,18 +3,18 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useState } from 'react';
 import styles from './AddMusic.module.scss';
 import Button from '../Button/Button';
-import Modal from '../Modal/Modal';
 import axios from 'axios';
 
-type FormValues = {
+type MusicFormData = {
     name: string;
-    file: FileList;
     musicPhotos: FileList;
-};
+    file: FileList;
+}
+
 
 const AddMusic = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>(); 
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<MusicFormData>();
 
     const [musicFileName, setMusicFileName] = useState('');
     const [coverFileName, setCoverFileName] = useState('');
@@ -24,17 +24,19 @@ const AddMusic = () => {
         setIsOpen(false);
         reset();
         setMusicFileName('')
-        setCoverFileName(''); 
+        setCoverFileName('');
     };
 
-    const handleDone = async () => {
+    const handleDone = () => {
+        setIsOpen(false);
+        reset();
     };
 
-
-    const onSubmit: SubmitHandler<FormValues> = async (values: FormValues) => {
+    const onSubmit: SubmitHandler<MusicFormData> = async (values: MusicFormData) => {
         console.log(values);
 
         const data = new FormData();
+
         data.append('name', values.name);
 
         if (values.file.length > 0) {
@@ -44,9 +46,8 @@ const AddMusic = () => {
 
         if (values.musicPhotos.length > 0) {
             data.append('musicPhotos', values.musicPhotos[0]);
-           
             console.log(values.musicPhotos[0]);
-            
+
         }
 
         try {
@@ -55,16 +56,20 @@ const AddMusic = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post(`https://vibetunes-backend.onrender.com/music/upload`, data, {
+           await axios.post('https://vibetunes-backend.onrender.com/music/upload', data, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
-            }).then(() => {
-                setIsOpen(false)
-            })
-        } catch (error) {
-            console.error('Error uploading files:', error);
+            });
+
+            // if (response.status !== 200) {
+            //     throw new Error('Network response was not ok');
+            // }
+            handleDone();
+        } finally {
+            // handleDone() ;
+            setIsOpen(false);
         }
     };
 
@@ -88,12 +93,14 @@ const AddMusic = () => {
             {
                 isOpen &&
                 <div className={styles.reausableModalContainer}>
-                    <form onSubmit={handleSubmit(onSubmit)} className={styles.addname}>
-                        <Modal
-                            isOpen={isOpen}
-                            onClose={handleCloseModal}
-                            onDone={handleDone}
-                            title='Add Music'>
+                    <div className={styles.reusableModal}>
+                        <div className={styles.addPlaylist}>
+                            <span className={styles.addPlaylistText}>Add Music</span>
+                            <button onClick={handleCloseModal} className={styles.addPlaylistIcon}>
+                                <img src="/xicon.svg" alt="x" />
+                            </button>
+                        </div>
+                        <form onSubmit={handleSubmit(onSubmit)} className={styles.addname}>
                             <span className={styles.musicText}>Name</span>
                             <input
                                 className={styles.inputMusic}
@@ -111,7 +118,7 @@ const AddMusic = () => {
                                     style={{ display: 'none' }}
                                 />
                                 <label className={styles.uploadLabel} htmlFor="file-upload">
-                                     <img className={styles.uploadIcon} src="/uploadfile.svg" alt="file" />
+                                    <img className={styles.uploadIcon} src="/uploadfile.svg" alt="file" />
                                     {musicFileName || 'Upload music - Mp3'}
                                 </label>
                             </div>
@@ -121,16 +128,24 @@ const AddMusic = () => {
                                     type="file"
                                     {...register('musicPhotos', { required: true })}
                                     onChange={handleCoverFileChange}
-                                    style={{ display: 'none' }} 
+                                    style={{ display: 'none' }}
                                 />
                                 <label className={styles.uploadLabel} htmlFor="file-upload-cover">
-                                <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
+                                    <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
                                     {coverFileName || 'Upload music cover'}
                                 </label>
                             </div>
-                        </Modal>
-                    </form>
 
+                            <div className={styles.modalButton}>
+                                <div className={styles.cancel} onClick={handleCloseModal}>
+                                    <Button title={'cancel'} type={'secondary'} showIcon={true} />
+                                </div>
+                                <div className={styles.done}>
+                                    <Button title={'done'} type={'primary'} showIcon={true} />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             }
         </>

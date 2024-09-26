@@ -5,7 +5,7 @@ import Bin from '../Bin/Bin';
 import AddAlbums from '../AddAlbums/AddAlbums';
 
 type ArtistRecord = {
-    key: string;
+    key: number;
     name: string;
     year: number;
     address: string;
@@ -15,42 +15,42 @@ type ArtistRecord = {
 const ArtistTable = () => {
     const dataSource: ArtistRecord[] = [
         {
-            key: '1',
+            key: 1,
             name: 'Imany',
             year: 1979,
             address: '04.07.2024',
             image: 'imany.svg',
         },
         {
-            key: '2',
+            key: 2,
             name: 'Coldplay',
             year: 1997,
             address: '04.07.2024',
             image: 'imany.svg',
         },
         {
-            key: '3',
+            key: 3,
             name: 'The Beatles',
             year: 1960,
             address: '03.07.2024',
             image: 'imany.svg',
         },
         {
-            key: '4',
+            key: 4,
             name: 'Harry Styles',
             year: 1994,
             address: '01.07.2024',
             image: 'imany.svg',
         },
         {
-            key: '5',
+            key: 5,
             name: 'Queen',
             year: 1970,
             address: '01.07.2024',
             image: 'imany.svg',
         },
         {
-            key: '6',
+            key: 6,
             name: 'Billie Eilish',
             year: 2001,
             address: '01.07.2024',
