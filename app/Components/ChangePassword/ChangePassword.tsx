@@ -11,9 +11,13 @@ type PasswordFormData = {
     confirmPassword: string;
 }
 
+type Props = {
+    id: number
+}
 
 
-const ChangePassword = () => {
+
+const ChangePassword = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm<PasswordFormData>();
 
@@ -40,19 +44,15 @@ const ChangePassword = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.patch(`https://vibetunes-backend.onrender.com/users/change-password`, data, {
+            await axios.patch(`https://vibetunes-backend.onrender.com/users/${props.id}/change-password`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
             });
 
-            // if (response.status !== 200) {
-            //     throw new Error('Network response was not ok');
-            // }
             handleDone();
         } finally {
-            // handleDone() ;
             setIsOpen(false);
         }
     };
