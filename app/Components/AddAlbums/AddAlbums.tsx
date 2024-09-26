@@ -9,36 +9,46 @@ type AlbumsFormData = {
     artistName: string;
     albumName: string;
     Year: number;
-    AddBiography: string;
     photo: FileList;
 }
 
 const AddAlbums = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<AlbumsFormData>();
+    const { register, handleSubmit, reset,  formState: { errors } } = useForm<AlbumsFormData>();
 
+    const [file, setFile] = useState<File | null>(null);
     const [albumCover, setAlbumCover] = useState('');
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => {
         setIsOpen(false);
         reset();
+        setFile(null);
+        setAlbumCover('');
+
     };
 
     const handleDone = () => {
         setIsOpen(false);
+        setAlbumCover('');
         reset();
     };
 
 
     const onSubmit: SubmitHandler<AlbumsFormData> = async (values: AlbumsFormData) => {
-        console.log(values);
 
         const data = new FormData();
-        data.append('name', values.artistName);
+        data.append('artistName', values.artistName);
+        data.append('albumName', values.albumName);
         data.append('Year', values.Year.toString() || '');
-        data.append('photo', values.photo[0]);
-        data.append('name', values.albumName);
+      
+
+        if (file) {
+            data.append('photo', file);
+        } else {
+            console.error("No photo file selected");
+            return;
+        }
 
 
         try {
@@ -47,29 +57,23 @@ const AddAlbums = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend.onrender.com/playlist', data, {
+            await axios.post('https://vibetunes-backend.onrender.com/album', data, {
                 headers: {
-                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
             });
-
-            // if (response.status !== 200) {
-            //     throw new Error('Network response was not ok');
-            // }
             handleDone();
         } finally {
-            // handleDone() ;
             setIsOpen(false);
         }
     };
 
     const handleAlbumCover = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
+            setFile(event.target.files[0]);
             setAlbumCover(event.target.files[0].name);
         }
     };
-
 
     return (
         <>
@@ -81,7 +85,7 @@ const AddAlbums = () => {
                 <div className={styles.reausableModalContainer}>
                     <div className={styles.reusableModal}>
                         <div className={styles.addPlaylist}>
-                            <span className={styles.addPlaylistText}>Add Artist</span>
+                            <span className={styles.addPlaylistText}>Add Album</span>
                             <button onClick={handleCloseModal} className={styles.addPlaylistIcon}>
                                 <img src="xicon.svg" alt="x" />
                             </button>
