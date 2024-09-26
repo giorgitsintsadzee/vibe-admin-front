@@ -15,7 +15,7 @@ type ArtistFormData = {
 
 const AddArtist = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<ArtistFormData>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<ArtistFormData>();
 
     const [file, setFile] = useState<File | null>(null);
     const [coverFileName, setCoverFileName] = useState('');
@@ -29,11 +29,6 @@ const AddArtist = () => {
     };
 
     const handleDone = () => {
-        const data = getValues();
-        if (!data.name) {
-            console.error('music name is required');
-            return;
-        }
         setIsOpen(false);
         setCoverFileName('');
         reset();
