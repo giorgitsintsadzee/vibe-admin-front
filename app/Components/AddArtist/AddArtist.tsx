@@ -1,117 +1,170 @@
-'use client';
+'use client'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useState } from 'react';
 import styles from './AddArtist.module.scss';
 import Button from '../Button/Button';
 import axios from 'axios';
 
-interface ArtistFormData {
-    name: string;
-    lastName: string;
-    Year?: number;
-    AddBiography?: string;
-}
 
 const AddArtist = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<any>();
+    
     const [file, setFile] = useState<File | null>(null);
     const [coverFileName, setCoverFileName] = useState('');
 
-    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<ArtistFormData>();
-
-    const toggleModal = () => setIsOpen(!isOpen);
-
-    const handleDone = () => {
-        if (!getValues().name) return console.error('Artist name is required');
-        toggleModal();
+    const handleOpenModal = () => setIsOpen(true);
+    const handleCloseModal = () => {
+        setIsOpen(false);
         reset();
-        setFile(null);
+        setFile(null);  
         setCoverFileName('');
     };
 
-    const onSubmit: SubmitHandler<ArtistFormData> = async (values: ArtistFormData) => {
-        const data = new FormData();
+    const handleDone = () => {
+        const data = getValues();
+        if (!data.name) {
+            console.error('music name is required');
+            return;
+        }
+        setIsOpen(false);
+        setCoverFileName('');
+        reset();
+    };
 
+    const onSubmit: SubmitHandler<any> = async (values: any) => {
+        const data = new FormData();
         data.append('musicName', values.name);
         data.append('lastName', values.lastName);
-        data.append('Year', values.Year?.toString() || '');  
-        data.append('AddBiography', values.AddBiography || '');
+        data.append('Year', values.Year);
+        data.append('AddBiography', values.AddBiography);
+        
 
         if (file) {
             data.append('photo', file);  
         } else {
-            return console.error("No photo file selected");
+            console.error("No photo file selected");
+            return;
         }
 
         try {
-            const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
-            if (token) {
-                await axios.post('https://vibetunes-backend.onrender.com/author', data, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-            } else {
-                console.error("No token found");
-            }
+            const token = document.cookie
+                .split('; ')
+                .find((row) => row.startsWith('token='))
+                ?.split('=')[1];
+
+            await axios.post('https://vibetunes-backend.onrender.com/author', data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
         } finally {
             handleDone();
         }
     };
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = e.target.files?.[0];
-        setFile(selectedFile || null);
-        setCoverFileName(selectedFile?.name || '');
+    const handleCoverFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setFile(event.target.files[0]);  
+            setCoverFileName(event.target.files[0].name);
+        }
     };
 
     return (
         <>
-            <div onClick={toggleModal}>
-                <Button title='Add Artist' type='primary' showIcon={true} />
+            <div onClick={handleOpenModal}>
+                <Button title={'Add Artist'} type={'primary'} showIcon={false} />
             </div>
-            {isOpen && (
+            {
+                isOpen &&
                 <div className={styles.reausableModalContainer}>
                     <div className={styles.reusableModal}>
                         <div className={styles.addPlaylist}>
                             <span className={styles.addPlaylistText}>Add Artist</span>
-                            <button onClick={toggleModal} className={styles.addPlaylistIcon}>
-                                <img src="xicon.svg" alt="close" />
+                            <button onClick={handleCloseModal} className={styles.addPlaylistIcon}>
+                                <img src="xicon.svg" alt="x" />
                             </button>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)} className={styles.addmusicName}>
                             <div className={styles.userInfo}>
                                 <div className={styles.names}>
-                                    <input className={styles.inputMusic} type="text" placeholder="Artist Name" {...register('name', { required: true })} />
-                                    <input className={styles.inputMusic} type="text" placeholder="Last Name" {...register('lastName', { required: true })} />
+                                    <span className={styles.musicText}>Name</span>
+                                    <span className={styles.musicText}>last name</span>
+                                </div>
+                                <div className={styles.artistName}>
+                                    <input
+                                        className={styles.inputMusic}
+                                        type="text"
+                                        placeholder='artist name'
+                                        {...register('name', { required: 'Artist name is required' })}
+                                    />
+
+                                    <input
+                                        className={styles.inputMusic}
+                                        type="text"
+                                        placeholder='artist last name'
+                                        {...register('lastName', { required: 'Last name is required' })}
+                                    />
                                 </div>
                                 <div className={styles.errorName}>
-                                    {errors.name && <span className={styles.error}>Artist name is required</span>}
-                                    {errors.lastName && <span className={styles.error}>Last name is required</span>}
+                                    {errors.name && <span className={styles.error}>artist name is required</span>}
+                                    {errors.lastName && <span className={styles.error}>last name is required</span>}
                                 </div>
                             </div>
 
                             <div className={styles.info}>
-                                <input className={styles.inputMusic} type="number" placeholder="Year" {...register('Year')} />
-                                <input className={`${styles.inputB} ${styles.biography}`} type="text" placeholder="Add Biography" {...register('AddBiography')} />
+                                <div className={styles.yearbio}>
+                                    <span className={styles.musicText}>Year</span>
+                                    <input
+                                        className={styles.inputMusic}
+                                        type="text"
+                                        placeholder='Year'
+                                        {...register('Year')}
+                                    />
+                                </div>
+
+                                <div className={styles.yearbio}>
+                                    <span className={styles.musicText}>Add Biography</span>
+                                    <div className={styles.inputWrapper}>
+                                        <input
+                                            className={`${styles.inputB} ${styles.biography}`}
+                                            type="text"
+                                            placeholder='Add Biography'
+                                            {...register('AddBiography')}
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
                             <div className={styles.inputFile}>
-                                <input id="upload-artist-photo" type="file" onChange={handleFileChange} />
-                                <label htmlFor="upload-artist-photo" className={styles.uploadLabel}>
+                                <input
+                                    id="upload-artist-photo"
+                                    type="file"
+                                    {...register('photo', { required: 'Photo is required' })}
+                                    onChange={handleCoverFileChange}  
+                                />
+
+                                <label className={styles.uploadLabel} htmlFor="upload-artist-photo">
                                     <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
                                     {coverFileName || 'Upload artist photo'}
                                 </label>
+                                {errors.photo && <span className={styles.error}>artist photo is required</span>}
                             </div>
-
                             <div className={styles.modalButton}>
-                                <Button title="Cancel" type="secondary" showIcon={true} />
-                                <Button title="Done" type="primary" showIcon={true} />
+                                <div className={styles.cancel} >
+                                    <Button title={'cancel'} type={'secondary'} showIcon={true} />
+                                </div>
+                                <div className={styles.done}>
+                                    <Button title={'done'} type={'primary'} showIcon={true} />
+                                </div>
                             </div>
                         </form>
                     </div>
                 </div>
-            )}
+            }
         </>
     );
-};
+}
 
 export default AddArtist;
