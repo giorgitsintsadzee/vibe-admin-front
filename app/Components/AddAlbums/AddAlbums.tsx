@@ -2,19 +2,22 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useState } from 'react';
 import styles from './AddAlbums.module.scss';
-import Modal from '../Modal/Modal';
 import axios from 'axios';
+import Button from '../Button/Button';
 
-type FormValues = {
-    name: string;
+type AlbumsFormData = {
+    artistName: string;
+    albumName: string;
+    Year: number;
+    AddBiography: string;
     photo: FileList;
-    Year: string;
-    artistName: string
-};
+}
 
 const AddAlbums = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<FormValues>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<AlbumsFormData>();
+
+    const [albumCover, setAlbumCover] = useState('');
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => {
@@ -23,29 +26,20 @@ const AddAlbums = () => {
     };
 
     const handleDone = () => {
-        const data = getValues();
-        if (!data.name) {
-            console.error('music name is required');
-            return;
-        }
-
+        setIsOpen(false);
+        reset();
     };
 
 
-    const onSubmit: SubmitHandler<FormValues> = async (values: FormValues) => {
+    const onSubmit: SubmitHandler<AlbumsFormData> = async (values: AlbumsFormData) => {
         console.log(values);
 
-
         const data = new FormData();
+        data.append('name', values.artistName);
+        data.append('Year', values.Year.toString() || '');
+        data.append('photo', values.photo[0]);
+        data.append('name', values.albumName);
 
-        data.append('musicName', values.name);
-
-        if (values.Year.length > 0) {
-            data.append('Year', values.Year[0]);
-        }
-        if (values.photo.length > 0) {
-            data.append('photo', values.photo[0]);
-        }
 
         try {
             const token = document.cookie
@@ -53,17 +47,29 @@ const AddAlbums = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend-prrr.onrender.com/files/upload', data, {
+            await axios.post('https://vibetunes-backend.onrender.com/playlist', data, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
-            })
+            });
+
+            // if (response.status !== 200) {
+            //     throw new Error('Network response was not ok');
+            // }
+            handleDone();
+        } finally {
+            // handleDone() ;
             setIsOpen(false);
-        } catch (error) {
-            console.error('Error uploading files:', error);
         }
     };
+
+    const handleAlbumCover = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setAlbumCover(event.target.files[0].name);
+        }
+    };
+
 
     return (
         <>
@@ -73,13 +79,14 @@ const AddAlbums = () => {
             {
                 isOpen &&
                 <div className={styles.reausableModalContainer}>
-                    <form onSubmit={handleSubmit(onSubmit)} className={styles.addmusicName}>
-                        <Modal
-                            isOpen={isOpen}
-                            onClose={handleCloseModal}
-                            onDone={handleDone}
-                            title=' Add Artist'>
-
+                    <div className={styles.reusableModal}>
+                        <div className={styles.addPlaylist}>
+                            <span className={styles.addPlaylistText}>Add Artist</span>
+                            <button onClick={handleCloseModal} className={styles.addPlaylistIcon}>
+                                <img src="xicon.svg" alt="x" />
+                            </button>
+                        </div>
+                        <form onSubmit={handleSubmit(onSubmit)} className={styles.addmusicName}>
                             <div className={styles.userInfo}>
                                 <div className={styles.names}>
                                     <span className={styles.musicText}>Album Name</span>
@@ -89,7 +96,7 @@ const AddAlbums = () => {
                                         className={styles.inputMusic}
                                         type="text"
                                         placeholder='Album Name'
-                                        {...register('name', { required: 'Artist name is required' })}
+                                        {...register('albumName', { required: 'Artist name is required' })}
                                     />
                                 </div>
                                 <div className={styles.names}>
@@ -100,11 +107,11 @@ const AddAlbums = () => {
                                         className={styles.inputMusic}
                                         type="text"
                                         placeholder='Artist Name'
-                                        {...register('name', { required: 'Artist name is required' })}
+                                        {...register('artistName', { required: 'Artist name is required' })}
                                     />
                                 </div>
                                 <div className={styles.errorName}>
-                                    {errors.name && <span className={styles.error}>artist name is required</span>}
+                                    {errors.artistName && <span className={styles.error}>artist name is required</span>}
                                 </div>
                             </div>
 
@@ -113,10 +120,17 @@ const AddAlbums = () => {
                                     <span className={styles.musicText}>Year</span>
                                     <input
                                         className={styles.inputMusic}
-                                        type="text"
-                                        placeholder='Year'
-                                        {...register('Year')}
+                                        type="number"
+                                        placeholder='Year (4 digits)'
+                                        {...register('Year', {
+                                            required: 'Year is required',
+                                            pattern: {
+                                                value: /^\d{4}$/,
+                                                message: 'Year must be exactly 4 digits'
+                                            }
+                                        })}
                                     />
+                                    {errors.Year && <span className={styles.error}>{errors.Year.message}</span>}
                                 </div>
                             </div>
 
@@ -124,17 +138,28 @@ const AddAlbums = () => {
                                 <input
                                     id="upload-album-cover"
                                     type="file"
-                                    {...register('photo', { required: 'Photo is required' })} />
-                                <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
+                                    {...register('photo', { required: 'Photo is required' })}
+                                    onChange={handleAlbumCover}
+                                />
+
                                 <label className={styles.uploadLabel} htmlFor="upload-album-cover">
-                                    Upload album cover
+                                    <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
+                                    {albumCover || 'Upload album cover'}
                                 </label>
-                                {errors.photo && <span className={styles.error}>{errors.photo.message}</span>}
+                                {errors.photo && <span className={styles.error}>album cover is required</span>}
 
                             </div>
-                        </Modal>
-                    </form>
+                            <div className={styles.modalButton}>
+                                <div className={styles.cancel} onClick={handleCloseModal}>
+                                    <Button title={'cancel'} type={'secondary'} showIcon={true} />
+                                </div>
+                                <div className={styles.done} >
+                                    <Button title={'done'} type={'primary'} showIcon={true} />
+                                </div>
+                            </div>
 
+                        </form>
+                    </div>
                 </div>
             }
         </>

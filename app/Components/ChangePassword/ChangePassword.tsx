@@ -2,19 +2,20 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import React, { useState } from 'react';
 import styles from './ChangePassword.module.scss';
-import Modal from '../Modal/Modal';
 import axios from 'axios';
 import EditPen from '../EditPen/EditPen';
+import Button from '../Button/Button';
 
-type FormValues = {
-    oldPassword: string;
+type PasswordFormData = {
     newPassword: string;
-    confirmNewPassword: string;
-};
+    confirmPassword: string;
+}
+
+
 
 const ChangePassword = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>(); 
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<PasswordFormData>();
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => {
@@ -22,13 +23,16 @@ const ChangePassword = () => {
         reset();
     };
 
-    const onSubmit: SubmitHandler<FormValues> = async (values: FormValues) => {
+    const handleDone = () => {
+        setIsOpen(false);
+        reset();
+    };
+    const onSubmit: SubmitHandler<PasswordFormData> = async (values: PasswordFormData) => {
         console.log(values);
 
         const data = new FormData();
-        data.append('oldPassword', values.oldPassword);
         data.append('newPassword', values.newPassword);
-        data.append('confirmNewPassword', values.confirmNewPassword);
+        data.append('confirmPassword', values.confirmPassword);
 
         try {
             const token = document.cookie
@@ -36,17 +40,23 @@ const ChangePassword = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend-prrr.onrender.com/files/upload', data, {
+            await axios.patch(`https://vibetunes-backend.onrender.com/users/change-password`, data, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
             });
+
+            // if (response.status !== 200) {
+            //     throw new Error('Network response was not ok');
+            // }
+            handleDone();
+        } finally {
+            // handleDone() ;
             setIsOpen(false);
-        } catch (error) {
-            console.error('Error', error);
         }
     };
+
 
     return (
         <>
@@ -55,23 +65,14 @@ const ChangePassword = () => {
             </div>
             {isOpen && (
                 <div className={styles.reausableModalContainer}>
-                    <form onSubmit={handleSubmit(onSubmit)} className={styles.addname}>
-                        <Modal
-                            isOpen={isOpen}
-                            onClose={handleCloseModal}
-                            onDone={handleCloseModal} 
-                            title='Change Password'
-                        >
-                            <div className={styles.inputChange}>
-                                <span className={styles.musicText}>Old Password</span>
-                                <input
-                                    className={styles.inputMusic}
-                                    type="password"
-                                    placeholder='Old password'
-                                    {...register('oldPassword', { required: 'Old password is required' })}
-                                />
-                                {errors.oldPassword && <span className={styles.error}>{errors.oldPassword.message}</span>}
-                            </div>
+                    <div className={styles.reusableModal} >
+                        <div className={styles.addPlaylist}>
+                            <span className={styles.addPlaylistText}>ChangePassword</span>
+                            <button onClick={handleCloseModal} className={styles.addPlaylistIcon}>
+                                <img src="/xicon.svg" alt="x" />
+                            </button>
+                        </div>
+                        <form onSubmit={handleSubmit(onSubmit)} className={styles.addname}>
 
                             <div className={styles.inputChange}>
                                 <span className={styles.musicText}>New Password</span>
@@ -81,7 +82,7 @@ const ChangePassword = () => {
                                     placeholder='New password'
                                     {...register('newPassword', { required: 'New password is required' })}
                                 />
-                                {errors.newPassword && <span className={styles.error}>{errors.newPassword.message}</span>}
+                                {errors.newPassword && <span className={styles.error}>New password is required</span>}
                             </div>
 
                             <div className={styles.inputChange}>
@@ -90,12 +91,20 @@ const ChangePassword = () => {
                                     className={styles.inputMusic}
                                     type="password"
                                     placeholder='Confirm new password'
-                                    {...register('confirmNewPassword', { required: 'Confirm password is required' })}
+                                    {...register('confirmPassword', { required: 'Confirm password is required' })}
                                 />
-                                {errors.confirmNewPassword && <span className={styles.error}>{errors.confirmNewPassword.message}</span>}
+                                {errors.confirmPassword && <span className={styles.error}>Confirm password is required</span>}
                             </div>
-                        </Modal>
-                    </form>
+                            <div className={styles.modalButton}>
+                                <div className={styles.cancel} onClick={handleCloseModal}>
+                                    <Button title={'cancel'} type={'secondary'} showIcon={true} />
+                                </div>
+                                <div className={styles.done} >
+                                    <Button title={'done'} type={'primary'} showIcon={true} />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             )}
         </>

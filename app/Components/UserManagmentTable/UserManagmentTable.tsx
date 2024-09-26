@@ -8,7 +8,7 @@ import ChangePassword from '../ChangePassword/ChangePassword';
 import axios from 'axios';
 
 type EmailRecord = {
-    key: string;
+    key: number;
     email: string;
     createdAt: Date;
 };
@@ -72,7 +72,7 @@ const EmailTable = () => {
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
                     <Playlist id={record.key} />
                     <Padlock />
-                    <ChangePassword />
+                    <ChangePassword />                   
                 </div>
             ),
         },

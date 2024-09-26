@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 type Props = {
-    id: string;
+    id: number;
 }
 
 const Playlist = (props: Props) => {
