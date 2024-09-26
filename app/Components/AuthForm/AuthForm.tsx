@@ -12,7 +12,6 @@ import CryptoJS from 'crypto-js';
 
 const secretKey = 'yourSecretKey123';
 
-// Define the type for form values
 type FormValues = {
     email: string;
     password: string;
@@ -22,7 +21,7 @@ const AuthForm = () => {
     const [error, setError] = useState<string | null>(null);
     const [rememberMe, setRememberMe] = useState(false);
 
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormValues>(); // Use the defined FormValues type
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormValues>(); 
     const router = useRouter();
 
     useEffect(() => {
@@ -39,8 +38,8 @@ const AuthForm = () => {
         }
     }, [setValue]);
 
-    const onSubmit = (values: FormValues) => { // Specify the type here
-        axios.post('https://vibetunes-backend.onrender.com/auth/signIn', values)
+    const onSubmit = (values: FormValues) => { 
+        axios.post('https://vibetunes-backend.onrender.com/auth/admin/signIn', values)
             .then(r => {
                 setCookie('token', r.data.accessToken, 60);
 
@@ -57,7 +56,7 @@ const AuthForm = () => {
 
                 router.push('/');
             })
-            .catch(() => setError('Invalid email or password. Please try again.'));
+            .catch(() => setError('you are not admin!'));
     };
 
     return (
