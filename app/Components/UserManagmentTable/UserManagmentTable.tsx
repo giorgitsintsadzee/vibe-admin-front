@@ -72,7 +72,7 @@ const EmailTable = () => {
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
                     <Playlist id={record.key} />
                     <Padlock />
-                    <ChangePassword />                   
+                    <ChangePassword id={record.key} />                   
                 </div>
             ),
         },
