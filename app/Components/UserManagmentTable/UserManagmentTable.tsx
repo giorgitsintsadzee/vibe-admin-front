@@ -37,12 +37,12 @@ const EmailTable = () => {
                     },
                 });
                 const users = response.data;
-                const formattedData = users.map((user: any, index: number) => ({
+                const formattedData = users.map((user: EmailRecord, index: number) => ({
                     key: String(index + 1),
                     email: user.email,
-                    createdAt: new Date(user.createdAt).toLocaleDateString(),                    
+                    createdAt: new Date(user.createdAt).toLocaleDateString(),
                 }));
-                
+
                 setDataSource(formattedData);
             } catch (error) {
                 console.error('Failed to fetch users:', error);
@@ -50,10 +50,10 @@ const EmailTable = () => {
                 setLoading(false);
             }
         };
-        
+
         fetchEmails();
     }, []);
-    
+
     const columns = [
         {
             title: 'Email',
@@ -77,7 +77,7 @@ const EmailTable = () => {
             ),
         },
     ];
-    
+
     return (
         <Table
             dataSource={dataSource}
