@@ -25,7 +25,7 @@ const AddMusic = () => {
         setIsOpen(false);
         reset();
         setShowFile(null);
-        setMusicFileName('')
+        setMusicFileName('');
         setCoverFileName('');
     };
 
