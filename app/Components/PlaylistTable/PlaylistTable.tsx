@@ -20,7 +20,7 @@ const PlaylistTable = () => {
     const [loading, setLoading] = useState(false);
     const [click] = useRecoilState(clickState)
     const params = useParams();
-    console.log(playlist, 'play');
+    // console.log(playlist, 'play');
 
 
 

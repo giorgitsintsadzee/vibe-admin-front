@@ -22,7 +22,7 @@ const EditPlaylist = (props: Props) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<EditListFormData>();
     const [click, setClick] = useRecoilState(clickState)
     const params = useParams();
-    console.log(props.playlistId, 'ihguier');
+    // console.log(props.playlistId, 'ihguier');
 
 
 
