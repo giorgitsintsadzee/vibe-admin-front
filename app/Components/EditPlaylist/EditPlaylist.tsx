@@ -10,7 +10,13 @@ type EditListFormData = {
     name: string;
 }
 
-const EditPlaylist = () => {
+type Props = {
+    playlistId: number;
+    userId: number;
+}
+
+
+const EditPlaylist = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm<EditListFormData>();
 
@@ -38,19 +44,15 @@ const EditPlaylist = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.patch('https://vibetunes-backend.onrender.com/playlist', data, {
+            await axios.patch(`https://vibetunes-backend.onrender.com/playlist/${props.userId}/edit/${props.playlistId}`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
             });
 
-            // if (response.status !== 200) {
-            //     throw new Error('Network response was not ok');
-            // }
             handleDone();
         } finally {
-            // handleDone() ;
             setIsOpen(false);
         }
     };
