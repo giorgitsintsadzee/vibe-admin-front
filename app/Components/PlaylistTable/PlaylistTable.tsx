@@ -5,18 +5,25 @@ import Bin from '../Bin/Bin';
 import EditPlaylist from '../EditPlaylist/EditPlaylist';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { clickState } from '@/app/state';
 
 type SongRecord = {
-    key: number;
+    id: number;
     name: string;
     image: string;
 };
 
+
 const PlaylistTable = () => {
     const [playlist, setPlaylist] = useState<SongRecord[]>([]);
     const [loading, setLoading] = useState(false);
+    const [click] = useRecoilState(clickState)
     const params = useParams();
-    
+    console.log(playlist, 'play');
+
+
+
     useEffect(() => {
         const fetchPlaylist = async () => {
             setLoading(true);
@@ -38,10 +45,13 @@ const PlaylistTable = () => {
                 });
 
                 const users = response.data;
-                const formattedData = users.map((user: SongRecord, index: number) => ({
-                    key: index + 1, 
-                    name: user.name, 
-                    image: user.image || 'default_image_url.jpg', 
+                console.log(users, 'users');
+
+                const formattedData = users.map((user: SongRecord) => ({
+                    // key: index,
+                    id: user.id,
+                    name: user.name,
+                    image: user.image || 'default_image_url.jpg',
                 }));
 
                 setPlaylist(formattedData);
@@ -53,7 +63,7 @@ const PlaylistTable = () => {
         };
 
         fetchPlaylist();
-    }, [params.id]); 
+    }, [params.id, click]);
 
     const columns = [
         {
@@ -74,9 +84,11 @@ const PlaylistTable = () => {
         {
             title: '',
             key: 'actions',
-            render: () => (
+            render: (record: SongRecord) => (
+
+                // console.log(record, 'record'),
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                    <EditPlaylist />
+                    <EditPlaylist playlistId={record.id} />
                     <Bin />
                 </div>
             ),

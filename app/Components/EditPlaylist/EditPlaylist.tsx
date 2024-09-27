@@ -5,6 +5,9 @@ import styles from './EditPlaylist.module.scss';
 import axios from 'axios';
 import EditPen from '../EditPen/EditPen';
 import Button from '../Button/Button';
+import { useParams } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { clickState } from '@/app/state';
 
 type EditListFormData = {
     name: string;
@@ -12,13 +15,16 @@ type EditListFormData = {
 
 type Props = {
     playlistId: number;
-    userId: number;
 }
-
 
 const EditPlaylist = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm<EditListFormData>();
+    const [click, setClick] = useRecoilState(clickState)
+    const params = useParams();
+    console.log(props.playlistId, 'ihguier');
+
+
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => {
@@ -28,12 +34,17 @@ const EditPlaylist = (props: Props) => {
 
     const handleDone = () => {
         setIsOpen(false);
+        setClick(!click)
         reset();
     };
 
+    // const handleLogOut = () => {
+    //     window.location.reload();
+    // };
+
 
     const onSubmit: SubmitHandler<EditListFormData> = async (values: EditListFormData) => {
-        console.log(values);
+
 
         const data = new FormData();
         data.append('name', values.name);
@@ -44,7 +55,7 @@ const EditPlaylist = (props: Props) => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.patch(`https://vibetunes-backend.onrender.com/playlist/${props.userId}/edit/${props.playlistId}`, data, {
+            await axios.patch(`https://vibetunes-backend.onrender.com/playlist/${params.id}/edit/${props.playlistId}`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
@@ -66,8 +77,8 @@ const EditPlaylist = (props: Props) => {
                 isOpen &&
                 <div className={styles.reausableModalContainer}>
                     <div className={styles.reusableModal}>
-                    <div className={styles.addPlaylist}>
-                            <span className={styles.addPlaylistText}>EditPlaylist</span>
+                        <div className={styles.addPlaylist}>
+                            <span className={styles.addPlaylistText}>Edit Playlist</span>
                             <button onClick={handleCloseModal} className={styles.addPlaylistIcon}>
                                 <img src="/xicon.svg" alt="x" />
                             </button>
