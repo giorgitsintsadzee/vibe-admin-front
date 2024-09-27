@@ -1,58 +1,63 @@
 'use client';
 import { Table } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Bin from '../Bin/Bin';
 import EditPlaylist from '../EditPlaylist/EditPlaylist';
+import axios from 'axios';
+import { useParams } from 'next/navigation';
 
 type SongRecord = {
-    key: string;
+    key: number;
     name: string;
     image: string;
 };
 
 const PlaylistTable = () => {
-    const dataSource: SongRecord[] = [
-        {
-            key: '1',
-            name: 'Car songs',
-            image: '/playlisttable.svg',
-        },
-        {
-            key: '2',
-            name: 'Birthday songs',
-            image: '/playlisttable.svg',
-        },
-        {
-            key: '3',
-            name: 'Party songs',
-            image: '/playlisttable.svg',
-        },
-        {
-            key: '4',
-            name: 'Sadly songs',
-            image: '/playlisttable.svg',
-        },
-        {
-            key: '5',
-            name: 'Night',
-            image: '/playlisttable.svg',
-        },
-        {
-            key: '6',
-            name: 'Dream',
-            image: '/playlisttable.svg',
-        },
-        {
-            key: '7',
-            name: 'Good songs',
-            image: '/playlisttable.svg',
-        },
-        
-    ];
+    const [playlist, setPlaylist] = useState<SongRecord[]>([]);
+    const [loading, setLoading] = useState(false);
+    const params = useParams();
+    
+    useEffect(() => {
+        const fetchPlaylist = async () => {
+            setLoading(true);
+            try {
+                const token = document.cookie
+                    .split('; ')
+                    .find((row) => row.startsWith('token='))
+                    ?.split('=')[1];
+
+                if (!token) {
+                    throw new Error('No token found');
+                }
+
+                const response = await axios.get(`https://vibetunes-backend.onrender.com/playlist/admin/${params.id}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                const users = response.data;
+                const formattedData = users.map((user: any, index: number) => ({
+                    key: index + 1, // Keeping it as number for `key`
+                    name: user.name, // Ensure this corresponds to your data structure
+                    image: user.image || 'default_image_url.jpg', // Provide a default image if necessary
+                }));
+
+                setPlaylist(formattedData);
+            } catch (error) {
+                console.error('Failed to fetch users:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPlaylist();
+    }, [params.id]); // Adding params.id as a dependency
 
     const columns = [
         {
-            title: 'name',
+            title: 'Name',
             dataIndex: 'name',
             key: 'name',
             render: (text: string, record: SongRecord) => (
@@ -71,19 +76,20 @@ const PlaylistTable = () => {
             key: 'actions',
             render: () => (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                    <EditPlaylist/>
-                    <Bin/>
+                    <EditPlaylist />
+                    <Bin />
                 </div>
             ),
         },
     ];
 
     return (
-        <Table 
-            dataSource={dataSource} 
+        <Table
+            dataSource={playlist}
             columns={columns}
-            pagination={false} 
+            pagination={false}
             rowClassName="custom-row"
+            loading={loading}
         />
     );
 };
