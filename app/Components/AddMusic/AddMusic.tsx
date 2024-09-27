@@ -16,6 +16,7 @@ const AddMusic = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm<MusicFormData>();
 
+    const [showFile, setShowFile] = useState<File | null>(null);
     const [musicFileName, setMusicFileName] = useState('');
     const [coverFileName, setCoverFileName] = useState('');
 
@@ -23,7 +24,8 @@ const AddMusic = () => {
     const handleCloseModal = () => {
         setIsOpen(false);
         reset();
-        setMusicFileName('')
+        setShowFile(null);
+        setMusicFileName('');
         setCoverFileName('');
     };
 
@@ -33,21 +35,23 @@ const AddMusic = () => {
     };
 
     const onSubmit: SubmitHandler<MusicFormData> = async (values: MusicFormData) => {
-        console.log(values);
 
         const data = new FormData();
 
         data.append('name', values.name);
 
-        if (values.file.length > 0) {
-            data.append('file', values.file[0]);
-            console.log(values.file[0])
+        if (showFile) {
+            data.append('file', showFile);
+        } else {
+            console.error("No file selected");
+            return;
         }
 
-        if (values.musicPhotos.length > 0) {
-            data.append('musicPhotos', values.musicPhotos[0]);
-            console.log(values.musicPhotos[0]);
-
+        if (showFile) {
+            data.append('musicPhotos', showFile);
+        } else {
+            console.error("No photo file selected");
+            return;
         }
 
         try {
@@ -56,19 +60,14 @@ const AddMusic = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-           await axios.post('https://vibetunes-backend.onrender.com/music/upload', data, {
+            await axios.post('https://vibetunes-backend.onrender.com/music/upload', data, {
                 headers: {
-                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
             });
 
-            // if (response.status !== 200) {
-            //     throw new Error('Network response was not ok');
-            // }
             handleDone();
         } finally {
-            // handleDone() ;
             setIsOpen(false);
         }
     };
@@ -76,12 +75,14 @@ const AddMusic = () => {
     const handleMusicFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             setMusicFileName(event.target.files[0].name);
+            setShowFile(event.target.files[0]);
         }
     };
 
     const handleCoverFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             setCoverFileName(event.target.files[0].name);
+            setShowFile(event.target.files[0]);
         }
     };
 

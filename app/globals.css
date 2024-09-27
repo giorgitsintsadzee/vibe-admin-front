@@ -45,7 +45,7 @@ body {
   font-weight: 500;
   line-height: normal;
   background: var(--Color, #121212);
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 a {

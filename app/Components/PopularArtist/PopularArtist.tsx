@@ -62,7 +62,7 @@ const PopularArtist = () => {
                 key={artistCard.id}
                 title={artistCard.title}
                 url={artistCard.url}
-                year={artistCard.year}/>
+                year={artistCard.year} />
             ))}
         </div>
     )
