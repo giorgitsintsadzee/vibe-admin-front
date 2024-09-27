@@ -38,10 +38,10 @@ const PlaylistTable = () => {
                 });
 
                 const users = response.data;
-                const formattedData = users.map((user: any, index: number) => ({
-                    key: index + 1, // Keeping it as number for `key`
-                    name: user.name, // Ensure this corresponds to your data structure
-                    image: user.image || 'default_image_url.jpg', // Provide a default image if necessary
+                const formattedData = users.map((user: SongRecord, index: number) => ({
+                    key: index + 1, 
+                    name: user.name, 
+                    image: user.image || 'default_image_url.jpg', 
                 }));
 
                 setPlaylist(formattedData);
@@ -53,7 +53,7 @@ const PlaylistTable = () => {
         };
 
         fetchPlaylist();
-    }, [params.id]); // Adding params.id as a dependency
+    }, [params.id]); 
 
     const columns = [
         {
