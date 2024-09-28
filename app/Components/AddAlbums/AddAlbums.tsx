@@ -7,9 +7,9 @@ import Button from '../Button/Button';
 
 type AlbumsFormData = {
     artistName: string;
-    albumName: string;
-    Year: number;
-    photo: FileList;
+    title: string;
+    releaseDate: number;
+    file: FileList;
 }
 
 const AddAlbums = () => {
@@ -39,12 +39,12 @@ const AddAlbums = () => {
 
         const data = new FormData();
         data.append('artistName', values.artistName);
-        data.append('albumName', values.albumName);
-        data.append('Year', values.Year.toString() || '');
+        data.append('title', values.title);
+        data.append('releaseDate', values.releaseDate.toString() || '');
       
 
         if (file) {
-            data.append('photo', file);
+            data.append('file', file);
         } else {
             console.error("No photo file selected");
             return;
@@ -57,7 +57,7 @@ const AddAlbums = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend.onrender.com/album', data, {
+            await axios.post('https://vibetunes-backend.onrender.com/album/upload', data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -100,7 +100,7 @@ const AddAlbums = () => {
                                         className={styles.inputMusic}
                                         type="text"
                                         placeholder='Album Name'
-                                        {...register('albumName', { required: 'Artist name is required' })}
+                                        {...register('title', { required: 'Artist name is required' })}
                                     />
                                 </div>
                                 <div className={styles.names}>
@@ -126,7 +126,7 @@ const AddAlbums = () => {
                                         className={styles.inputMusic}
                                         type="number"
                                         placeholder='Year (4 digits)'
-                                        {...register('Year', {
+                                        {...register('releaseDate', {
                                             required: 'Year is required',
                                             pattern: {
                                                 value: /^\d{4}$/,
@@ -134,7 +134,7 @@ const AddAlbums = () => {
                                             }
                                         })}
                                     />
-                                    {errors.Year && <span className={styles.error}>{errors.Year.message}</span>}
+                                    {errors.releaseDate && <span className={styles.error}>{errors.releaseDate.message}</span>}
                                 </div>
                             </div>
 
@@ -142,7 +142,7 @@ const AddAlbums = () => {
                                 <input
                                     id="upload-album-cover"
                                     type="file"
-                                    {...register('photo', { required: 'Photo is required' })}
+                                    {...register('file', { required: 'Photo is required' })}
                                     onChange={handleAlbumCover}
                                 />
 
@@ -150,7 +150,7 @@ const AddAlbums = () => {
                                     <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
                                     {albumCover || 'Upload album cover'}
                                 </label>
-                                {errors.photo && <span className={styles.error}>album cover is required</span>}
+                                {errors.file && <span className={styles.error}>album cover is required</span>}
 
                             </div>
                             <div className={styles.modalButton}>
