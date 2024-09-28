@@ -52,9 +52,13 @@ const Bin = ({ playlistId }: Props) => {
             {isOpen && (
                 <div className={styles.wrap}>
                     <div className={styles.reusableModalContainer}>
-                        <div className={styles.confirmationText}>
-                            Are you sure ?
+                        <div className={styles.addPlaylist}>
+                            <span className={styles.addPlaylistText}>Are you sure?</span>
+                            <button onClick={handleCloseModal} className={styles.addPlaylistIcon}>
+                                <img src="/xicon.svg" alt="x" />
+                            </button>
                         </div>
+
                         <div className={styles.modalButton}>
                             <div className={styles.cancel} onClick={handleCloseModal}>
                                 <Button title={'Cancel'} type={'secondary'} showIcon={true} />
@@ -62,9 +66,9 @@ const Bin = ({ playlistId }: Props) => {
                             <div className={styles.delete} onClick={handleDelete}>
                                 <Button title={'Delete'} type={'primary'} showIcon={true} />
                             </div>
-                        </div>  
+                        </div>
                     </div>
-                </div>
+                 </div>
             )}
         </>
     );
