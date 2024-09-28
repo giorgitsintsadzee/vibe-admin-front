@@ -84,7 +84,7 @@ const PlaylistTable = () => {
             render: (record: SongRecord) => (
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <EditPlaylist playlistId={record.id} />
-                    <Bin />
+                    <Bin playlistId={record.id} />
                 </div>
             ),
         },

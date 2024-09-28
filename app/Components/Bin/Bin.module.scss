@@ -19,7 +19,7 @@
     cursor: pointer;
 }
 
-.delete {
+.reusableModalContainer {
     background-color: #000;
     max-width: 316px;
     width: 100%;
@@ -32,6 +32,7 @@
     padding-left: 10px;
     padding-right: 10px;
     cursor: pointer;
+    align-items: center;
 }
 
 .delete span {
@@ -57,6 +58,11 @@
     
 
 }
+
+.modalButton {
+    display: flex;
+    justify-content: center;
+    gap: 8px;}
 
 .buttons {
     display: flex;
