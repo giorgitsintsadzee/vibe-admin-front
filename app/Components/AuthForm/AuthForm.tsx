@@ -62,7 +62,7 @@ const AuthForm = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={styles.mainContainer}>
             <div className={styles.authContainer}>
-                <Image className={styles.logo} src='/logo.png' width={170} height={70} alt={"logo"} />
+                <Image className={styles.logo} src='/whiteLogo.png' width={170} height={70} alt={"logo"} />
 
                 <div className={styles.forms}>
                     <ReusableInput
