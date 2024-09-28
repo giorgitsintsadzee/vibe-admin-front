@@ -42,7 +42,6 @@ const AddAlbums = () => {
         data.append('title', values.title);
         data.append('releaseDate', values.releaseDate.toString() || '');
       
-
         if (file) {
             data.append('file', file);
         } else {
