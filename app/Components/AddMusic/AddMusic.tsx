@@ -7,8 +7,8 @@ import axios from 'axios';
 
 type MusicFormData = {
     name: string;
-    musicPhotos: FileList;
-    file: FileList;
+    photo: FileList;
+    mp3: FileList;
 }
 
 
@@ -41,14 +41,14 @@ const AddMusic = () => {
         data.append('name', values.name);
 
         if (showFile) {
-            data.append('file', showFile);
+            data.append('mp3', showFile);
         } else {
             console.error("No file selected");
             return;
         }
 
         if (showFile) {
-            data.append('musicPhotos', showFile);
+            data.append('photo', showFile);
         } else {
             console.error("No photo file selected");
             return;
@@ -114,7 +114,7 @@ const AddMusic = () => {
                                 <input
                                     id="file-upload"
                                     type="file"
-                                    {...register('file', { required: true })}
+                                    {...register('mp3', { required: true })}
                                     onChange={handleMusicFileChange}
                                     style={{ display: 'none' }}
                                 />
@@ -127,7 +127,7 @@ const AddMusic = () => {
                                 <input
                                     id="file-upload-cover"
                                     type="file"
-                                    {...register('musicPhotos', { required: true })}
+                                    {...register('photo', { required: true })}
                                     onChange={handleCoverFileChange}
                                     style={{ display: 'none' }}
                                 />
