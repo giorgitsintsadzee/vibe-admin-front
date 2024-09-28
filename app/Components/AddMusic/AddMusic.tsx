@@ -7,6 +7,7 @@ import axios from 'axios';
 
 type MusicFormData = {
     name: string;
+    artistName: string;
     photo: FileList;
     mp3: FileList;
 }
@@ -39,6 +40,7 @@ const AddMusic = () => {
         const data = new FormData();
 
         data.append('name', values.name);
+        data.append('artistName', values.name);
 
         if (showFile) {
             data.append('mp3', showFile);
@@ -102,14 +104,25 @@ const AddMusic = () => {
                             </button>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)} className={styles.addname}>
-                            <span className={styles.musicText}>Name</span>
-                            <input
-                                className={styles.inputMusic}
-                                type="text"
-                                placeholder='Music name'
-                                {...register('name', { required: true })}
-                            />
-                            {errors.name && <span className={styles.error}>Music name is required</span>}
+                            <div className={styles.wrapper}>
+                                <span className={styles.musicText}>Name</span>
+                                <input
+                                    className={styles.inputMusic}
+                                    type="text"
+                                    placeholder='Music Name'
+                                    {...register('name', { required: true })}
+                                />
+                                {errors.name && <span className={styles.error}>Music name is required</span>}
+
+                                <span className={styles.musicText}>Artist Name</span>
+                                <input
+                                    className={styles.inputMusic}
+                                    type="text"
+                                    placeholder='Artist Name'
+                                    {...register('artistName', { required: true })}
+                                />
+                                {errors.name && <span className={styles.error}>artist name is required</span>}
+                            </div>
                             <div className={styles.inputFile}>
                                 <input
                                     id="file-upload"
