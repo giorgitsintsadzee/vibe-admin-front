@@ -20,9 +20,6 @@ const PlaylistTable = () => {
     const [loading, setLoading] = useState(false);
     const [click] = useRecoilState(clickState)
     const params = useParams();
-    // console.log(playlist, 'play');
-
-
 
     useEffect(() => {
         const fetchPlaylist = async () => {
@@ -85,9 +82,7 @@ const PlaylistTable = () => {
             title: '',
             key: 'actions',
             render: (record: SongRecord) => (
-
-                // console.log(record, 'record'),
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <EditPlaylist playlistId={record.id} />
                     <Bin />
                 </div>

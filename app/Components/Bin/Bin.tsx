@@ -11,7 +11,7 @@ const Bin = () => {
 
     return (
         <div className={styles.conteiner}>
-            <img src='/bin.svg' alt='bin' onClick={onClick} className={styles.trash} />
+            <img src='/bin.svg' alt='bin' onClick={onClick} className={styles.trash} width={32} height={32} />
             {isActive && (
                 <div onClick={onClick} className={styles.wrap}>
                     <div className={styles.delete}>
