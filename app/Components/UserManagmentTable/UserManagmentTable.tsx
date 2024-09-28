@@ -2,7 +2,7 @@
 
 import { Table } from 'antd';
 import React, { useEffect, useState } from 'react';
-import Padlock from '../Delete/Padlock';
+import Padlock from '../Padlock/Padlock';
 import Playlist from '../Playlist/Playlist';
 import ChangePassword from '../ChangePassword/ChangePassword';
 import axios from 'axios';
@@ -13,7 +13,7 @@ type EmailRecord = {
     createdAt: Date;
 };
 
-const EmailTable = () => {
+const UserManagmentTable = () => {
     const [dataSource, setDataSource] = useState<EmailRecord[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -71,8 +71,8 @@ const EmailTable = () => {
             render: (record: EmailRecord) => (
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
                     <Playlist id={record.key} />
-                    <Padlock />
-                    <ChangePassword id={record.key} />                   
+                    <Padlock id={record.key} />
+                    <ChangePassword id={record.key} />
                 </div>
             ),
         },
@@ -90,4 +90,4 @@ const EmailTable = () => {
     );
 };
 
-export default EmailTable;
+export default UserManagmentTable;
