@@ -68,7 +68,7 @@ const Padlock = ({ id }: Props) => {
   return (
     <div onClick={handleClick}>
       <img
-        src={isLocked ? '/icons/Lock.svg' : '/icons/Unlock.svg'}
+        src={isLocked ? '/icons/Lock.svg' : '/icons/unlock.svg'}
         alt={isLocked ? 'lock' : 'unlock'}
         width={32}
         height={32}
