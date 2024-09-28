@@ -5,6 +5,7 @@ type Props = {
     type: "primary" | "secondary";
     width?: string;
     showIcon: boolean;
+    onClick?: () => boolean
 }
 
 const Button = (props: Props) => {
@@ -18,7 +19,7 @@ const Button = (props: Props) => {
         <button
             style={{ width: `${props.width}` }} className={classes.join(' ').trim()}>
             <div className={styles.icon}>
-            {props.showIcon ? '' : <img src="/addmusic.svg" alt="icon" />}
+                {props.showIcon ? '' : <img src="/addmusic.svg" alt="icon" />}
                 {props.title}
             </div>
         </button>

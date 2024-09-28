@@ -56,7 +56,7 @@ const AddAlbums = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend.onrender.com/album', data, {
+            await axios.post('https://vibetunes-backend.onrender.com/album/upload', data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

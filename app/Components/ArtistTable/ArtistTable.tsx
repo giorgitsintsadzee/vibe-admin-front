@@ -1,88 +1,98 @@
 'use client';
 
 import { Table } from 'antd';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Bin from '../Bin/Bin';
 import AddAlbums from '../AddAlbums/AddAlbums';
 
 type ArtistRecord = {
+    id: number;
+    firstName: string;
+    lastName: string;
+    releaseDate: string;
+    createdAt: string;
+    file: {
+        url: string;
+    };
+};
+
+type TableRecord = {
     key: number;
     name: string;
-    year: number;
-    address: string;
+    year: string;
+    createdAt: string;
     image: string;
 };
 
 const ArtistTable = () => {
-    const dataSource: ArtistRecord[] = [
-        {
-            key: 1,
-            name: 'Imany',
-            year: 1979,
-            address: '04.07.2024',
-            image: 'imany.svg',
-        },
-        {
-            key: 2,
-            name: 'Coldplay',
-            year: 1997,
-            address: '04.07.2024',
-            image: 'imany.svg',
-        },
-        {
-            key: 3,
-            name: 'The Beatles',
-            year: 1960,
-            address: '03.07.2024',
-            image: 'imany.svg',
-        },
-        {
-            key: 4,
-            name: 'Harry Styles',
-            year: 1994,
-            address: '01.07.2024',
-            image: 'imany.svg',
-        },
-        {
-            key: 5,
-            name: 'Queen',
-            year: 1970,
-            address: '01.07.2024',
-            image: 'imany.svg',
-        },
-        {
-            key: 6,
-            name: 'Billie Eilish',
-            year: 2001,
-            address: '01.07.2024',
-            image: 'imany.svg',
-        },
-    ];
+    const [dataSource, setDataSource] = useState<TableRecord[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchArtists = async () => {
+            try {
+                const token = document.cookie
+                    .split('; ')
+                    .find((row) => row.startsWith('token='))
+                    ?.split('=')[1];
+
+                if (!token) {
+                    throw new Error('No token found');
+                }
+
+                const response = await axios.get('https://vibetunes-backend.onrender.com/author', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                const data = response.data.map((artist: ArtistRecord) => ({
+                    key: artist.id,
+                    name: `${artist.firstName} ${artist.lastName}`,
+                    year: artist.releaseDate,
+                    createdAt: new Date(artist.createdAt).toLocaleDateString(),
+                    image: artist.file?.url || '', 
+                }));
+
+                setDataSource(data);
+            } catch (error) {
+                console.error('Error fetching artist data:', error);
+                setError('Failed to fetch artist data');
+            }
+        };
+
+        fetchArtists();
+    }, []);
 
     const columns = [
         {
             title: 'Name, surname',
             dataIndex: 'name',
             key: 'name',
-            render: (text: string, record: ArtistRecord) => (
+            render: (text: string, record: TableRecord) => (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <img
-                        src={record.image}
-                        alt={record.name}
-                        style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
-                    />
+                    {record.image && (
+                        <img
+                            src={record.image}
+                            alt={record.name}
+                            style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
+                        />
+                    )}
                     {text}
                 </div>
             ),
         },
         {
-            title: 'Year',
+            title: 'Release Year',
             dataIndex: 'year',
             key: 'year',
         },
         {
-            title: 'Added date',
-            dataIndex: 'address',
-            key: 'address',
+            title: 'Added Date',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
         },
         {
             title: 'Actions',
@@ -95,6 +105,10 @@ const ArtistTable = () => {
             ),
         },
     ];
+
+    if (error) {
+        return <div>{error}</div>;
+    }
 
     return <Table dataSource={dataSource} columns={columns} pagination={false} />;
 };
