@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 import { clickState } from '@/app/state';
 
 type Props = {
-    playlistId: number;
+    playlistId?: number;
 };
 
 const Bin = ({ playlistId }: Props) => {
