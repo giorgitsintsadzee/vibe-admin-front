@@ -6,25 +6,25 @@ import Button from '../Button/Button';
 import axios from 'axios';
 
 type ArtistFormData = {
-    name: string;
+    firstName: string;
     lastName: string;
-    Year: number;
-    AddBiography: string;
-    photo: FileList;
+    releaseDate: string;
+    biography: string;
+    file: FileList;
 }
 
 const AddArtist = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm<ArtistFormData>();
 
-    const [file, setFile] = useState<File | null>(null);
+    const [files, setFiles] = useState<File | null>(null);
     const [coverFileName, setCoverFileName] = useState('');
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => {
         setIsOpen(false);
         reset();
-        setFile(null);
+        setFiles(null);
         setCoverFileName('');
     };
 
@@ -36,14 +36,14 @@ const AddArtist = () => {
 
     const onSubmit: SubmitHandler<ArtistFormData> = async (values: ArtistFormData) => {
         const data = new FormData();
-        data.append('name', values.name);
+        data.append('firstName', values.firstName);
         data.append('lastName', values.lastName);
-        data.append('Year', values.Year.toString() || '');
-        data.append('AddBiography', values.AddBiography);
+        data.append('releaseDate', values.releaseDate.toString() || '');
+        data.append('biography', values.biography);
 
 
-        if (file) {
-            data.append('photo', file);
+        if (files) {
+            data.append('file', files);
         } else {
             console.error("No photo file selected");
             return;
@@ -55,7 +55,7 @@ const AddArtist = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend.onrender.com/author', data, {
+            await axios.post('https://vibetunes-backend.onrender.com/author/upload', data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -68,7 +68,7 @@ const AddArtist = () => {
 
     const handleCoverFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
-            setFile(event.target.files[0]);
+            setFiles(event.target.files[0]);
             setCoverFileName(event.target.files[0].name);
         }
     };
@@ -99,7 +99,7 @@ const AddArtist = () => {
                                         className={styles.inputMusic}
                                         type="text"
                                         placeholder='artist name'
-                                        {...register('name', { required: 'Artist name is required' })}
+                                        {...register('firstName', { required: 'Artist name is required' })}
                                     />
 
                                     <input
@@ -110,7 +110,7 @@ const AddArtist = () => {
                                     />
                                 </div>
                                 <div className={styles.errorName}>
-                                    {errors.name && <span className={styles.error}>artist name is required</span>}
+                                    {errors.firstName && <span className={styles.error}>artist name is required</span>}
                                     {errors.lastName && <span className={styles.error}>last name is required</span>}
                                 </div>
                             </div>
@@ -122,7 +122,7 @@ const AddArtist = () => {
                                         className={styles.inputMusic}
                                         type="number"
                                         placeholder='Year (4 digits)'
-                                        {...register('Year', {
+                                        {...register('releaseDate', {
                                             required: 'Year is required',
                                             pattern: {
                                                 value: /^\d{4}$/,
@@ -130,7 +130,7 @@ const AddArtist = () => {
                                             }
                                         })}
                                     />
-                                    {errors.Year && <span className={styles.error}>{errors.Year.message}</span>}
+                                    {errors.releaseDate && <span className={styles.error}>{errors.releaseDate.message}</span>}
                                 </div>
 
                                 <div className={styles.yearbio}>
@@ -140,7 +140,7 @@ const AddArtist = () => {
                                             className={`${styles.inputB} ${styles.biography}`}
                                             type="text"
                                             placeholder='Add Biography'
-                                            {...register('AddBiography')}
+                                            {...register('biography')}
                                         />
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@ const AddArtist = () => {
                                 <input
                                     id="upload-artist-photo"
                                     type="file"
-                                    {...register('photo', { required: 'Photo is required' })}
+                                    {...register('file', { required: 'Photo is required' })}
                                     onChange={handleCoverFileChange}
                                 />
 
@@ -158,7 +158,7 @@ const AddArtist = () => {
                                     <img className={styles.uploadIcon} src="/musiccover.svg" alt="cover" />
                                     {coverFileName || 'Upload artist photo'}
                                 </label>
-                                {errors.photo && <span className={styles.error}>artist photo is required</span>}
+                                {errors.file && <span className={styles.error}>artist photo is required</span>}
                             </div>
                             <div className={styles.modalButton}>
                                 <div className={styles.cancel} onClick={handleCloseModal} >
