@@ -1,129 +1,96 @@
-'use client'
-import React from 'react';
-import styles from "./TrendHits.module.scss";
+'use client';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import styles from './TrendHits.module.scss';
 import MusicCard from '../MusicCard/MusicCard';
+
+type PhotoData = {
+    id: number;
+    url: string;
+    key: string;
+    bucket: string;
+    fileName: string;
+};
+
+type UrlData = {
+    id: number;
+    url: string;
+    key: string;
+    bucket: string;
+    fileName: string;
+};
+
+type MusicData = {
+    id: number;
+    name: string;
+    artistName: string;
+    artistId: number;
+    duration: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: null | string;
+    photo: PhotoData;
+    url: UrlData;
+};
 
 type Props = {
     limit?: number;
-}
+};
 
-const TrendHits = (props: Props) => {
-    const trendHitsData = [
-        {
-            id: 1,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 2,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 3,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 4,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 5,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 6,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 7,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 8,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 9,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 10,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 11,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 12,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 13,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 14,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 15,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-        {
-            id: 16,
-            songName: 'Believer',
-            artistName: 'Imagine Dragons',
-            imageUrl: '/backImageFullScreeen.jpg',
-        },
-    ];
+const AlbumsById: React.FC<Props> = ({ limit }) => {
+    const [recentlymusic, setResentlyMusic] = useState<MusicData[]>([]);
+    const [error, setError] = useState<string | null>(null);
 
-    const trendHits = props.limit ? trendHitsData.slice(0, props.limit) : trendHitsData;
+    useEffect(() => {
+        const resentlyMusic = async () => {
+            try {
+                const token = document.cookie
+                    .split('; ')
+                    .find((row) => row.startsWith('token='))
+                    ?.split('=')[1];
+
+                if (!token) {
+                    throw new Error('No token found');
+                }
+
+                const response = await axios.get('https://vibetunes-backend.onrender.com/music/recent', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                const data: MusicData[] = response.data;
+                setResentlyMusic(data);
+            } catch (error) {
+                console.error('Error fetching recently music data:', error);
+                setError('Failed to fetch recently music');
+            }
+        };
+
+        resentlyMusic();
+    }, []);
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    const displayedMusic = limit ? recentlymusic.slice(0, limit) : recentlymusic;
 
     return (
-      <>
-        <div className={styles.trendHitsContainer}>
-            {trendHits.map((trendHit) => (
+        <div className={styles.musicCards}>
+            <span>recently add music</span>
+            {displayedMusic.map((music) => (
                 <MusicCard
-                    key={trendHit.id}
-                    imageUrl={trendHit.imageUrl}
-                    songName={trendHit.songName}
-                    artistName={trendHit.artistName}
+                    key={music.id}
+                    imageUrl={music.photo.url}
+                    songName={music.name}
+                    artistName={music.artistName}
                     showBin={true}
                 />
             ))}
         </div>
-      </>
     );
-}
+};
 
-export default TrendHits;
+export default AlbumsById;

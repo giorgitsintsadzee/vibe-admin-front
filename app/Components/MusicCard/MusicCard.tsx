@@ -1,8 +1,7 @@
 'use client'
-
-import React from 'react';
+import React from 'react';  
 import styles from '../MusicCard/MusicCard.module.scss';
-import AlbumsMusicDelete from '../AlbumsMusicDelete/AlbumsMusicDelete';
+import Bin from '../Bin/Bin';
 
 type Props = {
     imageUrl: string;
@@ -28,11 +27,11 @@ const MusicCard = (props: Props) => {
                     </div>
                 </div>
                 <div className={styles.musicCardHeart}>
-                {props.showBin ? '' : <AlbumsMusicDelete/>}
+                    {props.showBin ? '' : <Bin />}
                 </div>
             </div>
         </div>
     );
 }
 
-export default MusicCard;
+export default MusicCard;   
