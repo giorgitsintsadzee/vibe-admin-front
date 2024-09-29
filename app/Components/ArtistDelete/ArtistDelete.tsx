@@ -1,20 +1,18 @@
 'use client';
 import { useState } from 'react';
-import styles from './Bin.module.scss'
+import styles from './ArtistDelete.module.scss'
 import axios from 'axios';
 import Button from '../Button/Button';
-import { useParams } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { clickState } from '@/app/state';
 
 type Props = {
-    playlistId?: number;
+    artistId: number;
 };
 
-const Bin = ({ playlistId }: Props) => {
+const ArtistDelete = ({ artistId }: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [click, setClick] = useRecoilState(clickState);
-    const params = useParams();
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => setIsOpen(false);
@@ -22,6 +20,8 @@ const Bin = ({ playlistId }: Props) => {
     const handleDone = () => {
         setIsOpen(false);
         setClick(!click);
+
+
     };
 
     const handleDelete = async () => {
@@ -31,7 +31,7 @@ const Bin = ({ playlistId }: Props) => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.delete(`https://vibetunes-backend.onrender.com/playlist/${params.id}/admin/${playlistId}`, {
+            await axios.delete(`https://vibetunes-backend.onrender.com/author/${artistId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
@@ -41,6 +41,8 @@ const Bin = ({ playlistId }: Props) => {
             handleDone();
         } catch (error) {
             console.error('Failed to delete the playlist:', error);
+        } finally {
+            setIsOpen(false)
         }
     };
 
@@ -68,10 +70,10 @@ const Bin = ({ playlistId }: Props) => {
                             </div>
                         </div>
                     </div>
-                 </div>
+                </div>
             )}
         </>
     );
 };
 
-export default Bin;
+export default ArtistDelete;

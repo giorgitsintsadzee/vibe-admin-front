@@ -106,12 +106,11 @@ const AddArtist = () => {
                                         className={styles.inputMusic}
                                         type="text"
                                         placeholder='artist last name'
-                                        {...register('lastName', { required: 'Last name is required' })}
+                                        {...register('lastName')}
                                     />
                                 </div>
                                 <div className={styles.errorName}>
                                     {errors.firstName && <span className={styles.error}>artist name is required</span>}
-                                    {errors.lastName && <span className={styles.error}>last name is required</span>}
                                 </div>
                             </div>
 
