@@ -91,7 +91,9 @@ const AlbumsById = (props: Props) => {
                         key={music.id}
                         showBin={false}
                     />
+                    
                 ))}
+                
             </div>
         </div>
     </>
@@ -99,4 +101,4 @@ const AlbumsById = (props: Props) => {
 }
 
 
-export default AlbumsById
+export default AlbumsById;
