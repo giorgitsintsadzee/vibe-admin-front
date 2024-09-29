@@ -20,7 +20,7 @@ type ArtistRecord = {
 };
 
 type TableRecord = {
-    // key: number;
+    key: number;
     id: number;
     name: string;
     year: string;
@@ -53,7 +53,7 @@ const ArtistTable = () => {
                 });
 
                 const data = response.data.map((artist: ArtistRecord) => ({
-                    // key: artist.id,
+                    key: artist.id,
                     id: artist.id,
                     name: `${artist.firstName} ${artist.lastName}`,
                     year: artist.releaseDate,
