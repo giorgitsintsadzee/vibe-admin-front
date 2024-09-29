@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styles from './ArtistCard.module.scss'
 type Props = {
     title: string
-    year: number
+    year: string,
     url?: string;
     id?: number;
 }
