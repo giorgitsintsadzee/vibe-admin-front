@@ -107,7 +107,7 @@ const AlbumsById = (props: Props) => {
                             imageUrl={music.photo}
                             songName={music.name}
                             artistName={music.artistName}
-                            showBin={true}
+                            showBin={false}
                             albumsMusicId={music.id}
                         />
                     ))}
