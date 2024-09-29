@@ -3,8 +3,10 @@
 import { Table } from 'antd';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Bin from '../Bin/Bin';
 import AddAlbums from '../AddAlbums/AddAlbums';
+import ArtistDelete from '../ArtistDelete/ArtistDelete';
+import { useRecoilState } from 'recoil';
+import { clickState } from '@/app/state';
 
 type ArtistRecord = {
     id: number;
@@ -19,6 +21,7 @@ type ArtistRecord = {
 
 type TableRecord = {
     key: number;
+    id: number;
     name: string;
     year: string;
     createdAt: string;
@@ -28,6 +31,7 @@ type TableRecord = {
 const ArtistTable = () => {
     const [dataSource, setDataSource] = useState<TableRecord[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [click] = useRecoilState(clickState)
 
     useEffect(() => {
         const fetchArtists = async () => {
@@ -50,6 +54,7 @@ const ArtistTable = () => {
 
                 const data = response.data.map((artist: ArtistRecord) => ({
                     key: artist.id,
+                    id: artist.id,
                     name: `${artist.firstName} ${artist.lastName}`,
                     year: artist.releaseDate,
                     createdAt: new Date(artist.createdAt).toLocaleDateString(),
@@ -64,7 +69,7 @@ const ArtistTable = () => {
         };
 
         fetchArtists();
-    }, []);
+    }, [click]);
 
     const columns = [
         {
@@ -97,10 +102,10 @@ const ArtistTable = () => {
         {
             title: 'Actions',
             key: 'actions',
-            render: () => (
+            render: (record: TableRecord) => (
                 <div style={{ display: 'flex', gap: '10px' }}>
                     <AddAlbums />
-                    <Bin />
+                    <ArtistDelete artistId={record.id}/>
                 </div>
             ),
         },
