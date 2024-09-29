@@ -1,71 +1,62 @@
-import React from 'react'
-import styles from './PopularArtist.module.scss'
-import ArtistCard from '../ArtistCard/ArtistCard'
+'use client';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import styles from './PopularArtist.module.scss';
+import ArtistCard from '../ArtistCard/ArtistCard';
 
-const PopularArtist = () => {
+type Artist = {
+    id: number;
+    firstName: string;
+    lastName: string;
+    file: {
+        url: string;
+    };
+    releaseDate: string;
+};
 
-    const artistsData = [
-        {
-            id: 1,
-            title: 'Coldplay',
-            year: 1997,
-            url: '/COldplay.svg',
-        },
-        {
-            id: 2,
-            title: 'Rihhana',
-            year: 1988,
-            url: '/rihhana.svg',
-        },
-        {
-            id: 3,
-            title: 'Coldplay',
-            year: 1997,
-            url: '/COldplay.svg',
-        },
-        {
-            id: 4,
-            title: 'Rihhana',
-            year: 1988,
-            url: '/rihhana.svg',
-        },
-        {
-            id: 5,
-            title: 'Rihhana',
-            year: 1988,
-            url: '/rihhana.svg',
-        },
-        {
-            id: 6,
-            title: 'Rihhana',
-            year: 1988,
-            url: '/rihhana.svg',
-        },
-        {
-            id: 7,
-            title: 'Rihhana',
-            year: 1988,
-            url: '/rihhana.svg',
-        },
-        {
-            id: 8,
-            title: 'Rihhana',
-            year: 1988,
-            url: '/rihhana.svg',
-        },
-    ]
-    
+type Props = {
+    limit: number;
+};
+
+const PopularArtist = ({ limit }: Props) => {
+    const [artistsData, setArtistsData] = useState<Artist[]>([]);
+
+    useEffect(() => {
+        const fetchArtists = async () => {
+            try {
+                const token = document.cookie
+                    .split('; ')
+                    .find((row) => row.startsWith('token='))
+                    ?.split('=')[1];
+
+                const response = await axios.get('https://vibetunes-backend.onrender.com/author/recent', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                setArtistsData(response.data);
+            } catch (error) {
+                console.error('Error fetching artist data:', error);
+            }
+        };
+
+        fetchArtists();
+    }, []);
+
     return (
         <div className={styles.container}>
-            {artistsData.map(artistCard=>(
+            {artistsData.slice(0, limit).map((artist) => (
                 <ArtistCard
-                key={artistCard.id}
-                title={artistCard.title}
-                url={artistCard.url}
-                year={artistCard.year} />
+                    key={artist.id}
+                    title={`${artist.firstName} ${artist.lastName}`.trim()}
+                    url={artist.file.url}
+                    year={artist.releaseDate}
+                />
             ))}
         </div>
-    )
-}
+    );
+};
 
-export default PopularArtist
+export default PopularArtist;
