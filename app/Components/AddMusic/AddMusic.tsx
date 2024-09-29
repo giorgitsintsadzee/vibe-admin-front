@@ -23,7 +23,10 @@ const AddMusic = (props: Props) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<MusicFormData>();
     // const params = useParams();
 
-    const [showFile, setShowFile] = useState<File | null>(null);
+    const [musicFile, setMusicFile] = useState<File | null>(null);
+    const [coverFile, setCoverFile] = useState<File | null>(null);
+
+    // const [showFile, setShowFile] = useState<File | null>(null);
     const [musicFileName, setMusicFileName] = useState('');
     const [coverFileName, setCoverFileName] = useState('');
 
@@ -31,9 +34,12 @@ const AddMusic = (props: Props) => {
     const handleCloseModal = () => {
         setIsOpen(false);
         reset();
-        setShowFile(null);
+        // setShowFile(null);
         setMusicFileName('');
         setCoverFileName('');
+
+        setMusicFile(null);
+        setCoverFile(null);
     };
 
     const handleDone = () => {
@@ -48,19 +54,34 @@ const AddMusic = (props: Props) => {
         data.append('name', values.name);
         data.append('artistName', values.artistName);
 
-        if (showFile) {
-            data.append('mp3', showFile);
+        // if (showFile) {
+        //     data.append('mp3', showFile);
+        // } else {
+        //     console.error("No file selected");
+        //     return;
+        // }
+
+        // if (showFile) {
+        //     data.append('photo', showFile);
+        // } else {
+        //     console.error("No photo file selected");
+        //     return;
+        // }
+
+        if (musicFile) {
+            data.append('mp3', musicFile);
         } else {
-            console.error("No file selected");
+            console.error("No music file selected");
             return;
         }
 
-        if (showFile) {
-            data.append('photo', showFile);
+        if (coverFile) {
+            data.append('photo', coverFile);
         } else {
-            console.error("No photo file selected");
+            console.error("No cover file selected");
             return;
         }
+
 
         try {
             const token = document.cookie
@@ -83,14 +104,16 @@ const AddMusic = (props: Props) => {
     const handleMusicFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             setMusicFileName(event.target.files[0].name);
-            setShowFile(event.target.files[0]);
+            setMusicFile(event.target.files[0]);
+            // setShowFile(event.target.files[0]);
         }
     };
 
     const handleCoverFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             setCoverFileName(event.target.files[0].name);
-            setShowFile(event.target.files[0]);
+            setCoverFile(event.target.files[0]);
+            // setShowFile(event.target.files[0]);
         }
     };
 
