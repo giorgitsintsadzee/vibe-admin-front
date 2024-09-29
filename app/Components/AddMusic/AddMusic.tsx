@@ -14,14 +14,14 @@ type MusicFormData = {
 }
 
 type Props = {
-    albumsId: number;
+    // albumsId: number;
     artistId: number;
 }
 
 const AddMusic = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm<MusicFormData>();
-    // const params = useParams();
+    const params = useParams();
 
     const [musicFile, setMusicFile] = useState<File | null>(null);
     const [coverFile, setCoverFile] = useState<File | null>(null);
@@ -89,7 +89,7 @@ const AddMusic = (props: Props) => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post(`https://vibetunes-backend.onrender.com/music/upload/${props.artistId}/add/${props.albumsId}`, data, {
+            await axios.post(`https://vibetunes-backend.onrender.com/music/upload/${props.artistId}/add/${params.id}`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
