@@ -65,6 +65,7 @@ const Albums = (props: Props) => {
                     artistName={album.artistName}
                     year={album.releaseDate}
                     id={album.id}
+                    
                 />
             ))}
         </div>
