@@ -9,7 +9,7 @@ export default function Home() {
             <div className={styles.container}>
                 <div className={styles.musicCard}>
                     {/* <span className={styles.musicCardTitle}>Recently add music</span> */}
-                    <TrendHits  limit={6}  />
+                    <TrendHits  limit={3}  />
                 </div>
                 <div className={styles.ArtistCard}>
                     <div className={styles.albumsText}>Recently add artist</div>
