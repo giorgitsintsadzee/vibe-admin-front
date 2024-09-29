@@ -9,6 +9,8 @@ type Props = {
     albumSong: string;
     albumSinger: string;
     albumDate: string;
+    albumId: number;
+    artistId: number;
 };
 type MusicResponse = {
     id: number;
@@ -92,7 +94,7 @@ const AlbumsById = (props: Props) => {
                             <span className={styles.albumSong}>{props.albumSong}</span>
                             <span className={styles.albumSingerdate}>{props.albumSinger}</span>
                         </div>
-                        <AddMusic />
+                        <AddMusic albumsId={props.albumId} artistId={props.artistId} />
                     </div>
                     <span className={styles.albumSingerdate}>{props.albumDate}</span>
                 </div>
@@ -103,7 +105,8 @@ const AlbumsById = (props: Props) => {
                             imageUrl={music.photo}
                             songName={music.name}
                             artistName={music.artistName}
-                            showBin={false}
+                            showBin={true}
+                            albumsMusicId={music.id}
                         />
                     ))}
                 </div>

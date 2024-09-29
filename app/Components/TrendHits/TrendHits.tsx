@@ -79,15 +79,14 @@ const AlbumsById: React.FC<Props> = ({ limit }) => {
 
     return (
         <div className={styles.musicCards}>
-            {/* <span>recently add music</span> */}
             {displayedMusic.map((music) => (
                 <MusicCard
                     key={music.id}
                     imageUrl={music.photo.url}
                     songName={music.name}
                     artistName={music.artistName}
-                    showBin={true}
-                />
+                    showBin={true}             
+                     />
             ))}
         </div>
     );

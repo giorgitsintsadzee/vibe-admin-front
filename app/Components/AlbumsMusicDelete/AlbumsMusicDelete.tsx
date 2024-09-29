@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 import { clickState } from '@/app/state';
 
 type Props = {
-    albumsMusicId?: number;
+    albumsMusicId: number;
 };
 
 const AlbumsMusicDelete = ({ albumsMusicId }: Props) => {

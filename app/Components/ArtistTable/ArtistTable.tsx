@@ -104,7 +104,7 @@ const ArtistTable = () => {
             key: 'actions',
             render: (record: TableRecord) => (
                 <div style={{ display: 'flex', gap: '10px' }}>
-                    <AddAlbums />
+                    <AddAlbums artistId={record.id} />
                     <ArtistDelete artistId={record.id}/>
                 </div>
             ),

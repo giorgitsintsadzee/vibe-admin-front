@@ -8,6 +8,7 @@ type Props = {
     songName: string;
     artistName: string;
     showBin: boolean;
+    albumsMusicId?: number;
 }
 
 const MusicCard = (props: Props) => {
@@ -27,7 +28,8 @@ const MusicCard = (props: Props) => {
                     </div>
                 </div>
                 <div className={styles.musicCardHeart}>
-                    {props.showBin ? '' : <AlbumsMusicDelete />}
+                {props.showBin ? '' : props.albumsMusicId && <AlbumsMusicDelete albumsMusicId={props.albumsMusicId} />}
+
                 </div>
             </div>
         </div>

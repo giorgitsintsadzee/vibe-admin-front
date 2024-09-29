@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import styles from './AddMusic.module.scss';
 import Button from '../Button/Button';
 import axios from 'axios';
+import { useParams } from 'next/navigation';
 
 type MusicFormData = {
     name: string;
@@ -12,10 +13,15 @@ type MusicFormData = {
     mp3: FileList;
 }
 
+type Props = {
+    albumsId: number;
+    artistId: number;
+}
 
-const AddMusic = () => {
+const AddMusic = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm<MusicFormData>();
+    // const params = useParams();
 
     const [showFile, setShowFile] = useState<File | null>(null);
     const [musicFileName, setMusicFileName] = useState('');
@@ -40,7 +46,7 @@ const AddMusic = () => {
         const data = new FormData();
 
         data.append('name', values.name);
-        data.append('artistName', values.name);
+        data.append('artistName', values.artistName);
 
         if (showFile) {
             data.append('mp3', showFile);
@@ -62,7 +68,7 @@ const AddMusic = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend.onrender.com/music/upload', data, {
+            await axios.post(`https://vibetunes-backend.onrender.com/music/upload/${props.artistId}/add/${props.albumsId}`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
