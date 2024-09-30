@@ -17,7 +17,7 @@ interface ListOptionsProps {
     onOptionClick?: (text: string) => void;
 }
 
-const ListOptions = ({ options, onOptionClick }: ListOptionsProps) => {
+const ListOptions = ({ options }: ListOptionsProps) => {
     const playMusic = (musicSrc: string) => {
         const audio = new Audio(musicSrc);
         audio.play();

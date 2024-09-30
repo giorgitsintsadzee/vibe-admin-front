@@ -24,7 +24,7 @@ type MusicResponse = {
             id: number;
             url: string;
         };
-        duration: string | null; // Adjusted if you need this
+        duration: string | null; 
     }[];
     file: {
         id: number;
@@ -37,9 +37,9 @@ type MusicData = {
     id: number;
     name: string;
     artistName: string;
-    photo: string; // Existing property for music photo
-    mp3: string; // Existing property for mp3 URL
-    coverUrl: string; // Added coverUrl property
+    photo: string; 
+    mp3: string; 
+    coverUrl: string;
 };
 
 const AlbumsById = (props: Props) => {
@@ -70,21 +70,19 @@ const AlbumsById = (props: Props) => {
 
                 const albumData = response.data;
 
-                // Map the music data to include the photo URL and cover URL
                 const musicData = albumData.musics.map((music) => ({
                     id: music.id,
                     name: music.name,
                     artistName: music.artistName,
-                    photo: music.photo?.url || '/default_music_image.svg', // Fallback if photo URL is missing
-                    mp3: albumData.file.url, // Assuming the mp3 URL is the same for all tracks
-                    coverUrl: albumData.file.url, // Assuming the album cover URL is the same for all tracks
+                    photo: music.photo?.url || '/default_music_image.svg', 
+                    mp3: albumData.file.url, 
+                    coverUrl: albumData.file.url, 
                 }));
 
                 setAlbomsmusic(musicData);
 
-                // Set album cover URL (if applicable)
                 if (musicData.length > 0) {
-                    setAlbumCoverUrl(albumData.file.url); // Adjust as needed for cover URL
+                    setAlbumCoverUrl(albumData.file.url); 
                 }
             } catch (error) {
                 console.error('Error fetching album music data:', error);
@@ -93,7 +91,7 @@ const AlbumsById = (props: Props) => {
         };
 
         fetchAlbumMusic();
-    }, [click, params.id]); // Add params.id to dependencies
+    }, [click, params.id]); 
 
     if (error) {
         return <div>{error}</div>;
@@ -106,7 +104,7 @@ const AlbumsById = (props: Props) => {
                 <div className={styles.albumImg}>
                     <img
                         className={styles.img}
-                        src={albumCoverUrl || '/default_album_image.svg'} // Fallback if cover URL is not set
+                        src={albumCoverUrl || '/default_album_image.svg'} 
                         alt="Album cover"
                     />
                 </div>
@@ -125,7 +123,7 @@ const AlbumsById = (props: Props) => {
                 {albomsmusic.map((music) => (
                     <MusicCard
                         key={music.id}
-                        imageUrl={music.coverUrl} // Pass the cover URL here
+                        imageUrl={music.coverUrl} 
                         songName={music.name}
                         artistName={music.artistName}
                         showBin={false}
