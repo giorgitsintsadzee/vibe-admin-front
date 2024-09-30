@@ -94,7 +94,7 @@ const SearchBar = () => {
                     text: `${author.firstName} ${author.lastName}`,
                     file: author.file.url,
                     type: 'author' as const,
-                    link: `/artist/${author.id}`,
+                    link: `/artist`,
                 }));
 
                 const musicOptions = musicData.map((music: Music) => ({
