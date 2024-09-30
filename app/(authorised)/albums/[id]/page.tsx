@@ -3,7 +3,7 @@ const Id = () => {
 
     return (
         <>
-            <AlbumsById albumSong={'Havana-'} albumSinger={'camila cabello'} albumDate={'1988'} />
+            <AlbumsById albumSong={'Havana-'} albumSinger={'camila cabello'} albumDate={'1988'}/>
         </>
     )
 }

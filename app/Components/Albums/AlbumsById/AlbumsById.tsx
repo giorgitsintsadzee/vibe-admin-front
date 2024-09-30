@@ -12,6 +12,7 @@ type Props = {
     // albumId?: number;
     artistId?: number;
 };
+
 type MusicResponse = {
     id: number;
     name: string;
@@ -38,13 +39,14 @@ const AlbumsById = (props: Props) => {
     const [albomsmusic, setAlbomsmusic] = useState<MusicData[]>([]);
     const [error, setError] = useState<string | null>(null);
 
+    const [albumCoverUrl, setAlbumCoverUrl] = useState<string | null>(null);
+
     useEffect(() => {
         const fetchAlbumMusic = async () => {
             try {
                 const token = document.cookie
                     .split('; ')
-                    .find((row) => row.startsWith('token='))
-                    ?.split('=')[1];
+                    .find((row) => row.startsWith('token='))?.split('=')[1];
 
                 if (!token) {
                     throw new Error('No token found');
@@ -66,6 +68,10 @@ const AlbumsById = (props: Props) => {
                 }));
 
                 setAlbomsmusic(data);
+
+                if (data.length > 0) {
+                    setAlbumCoverUrl(data[0].photo);
+                }
             } catch (error) {
                 console.error('Error fetching album music data:', error);
                 setError('Failed to fetch album music');
@@ -85,7 +91,7 @@ const AlbumsById = (props: Props) => {
                 <div className={styles.title}>Albums</div>
                 <div className={styles.albumContainer}>
                     <div className={styles.albumImg}>
-                        <img className={styles.img} src='/albumcardimg.svg' alt="Album cover" />
+                        <img className={styles.img} src={albumCoverUrl || '/default_album_image.svg'} alt="Album cover" />
                     </div>
                 </div>
                 <div className={styles.albumText}>
@@ -94,7 +100,6 @@ const AlbumsById = (props: Props) => {
                             <span className={styles.albumSong}>{props.albumSong}</span>
                             <span className={styles.albumSingerdate}>{props.albumSinger}</span>
                         </div>
-                        
                         <AddMusic />
 
                     </div>

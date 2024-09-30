@@ -14,6 +14,7 @@ type Album = {
 
 type Props = {
     limit?: number;
+    albumPhotos?: string[]; // New prop for album photos
 };
 
 const Albums = (props: Props) => {
@@ -57,15 +58,14 @@ const Albums = (props: Props) => {
 
     return (
         <div className={styles.albumsContainer}>
-            {albumCard.map((album) => (
+            {albumCard.map((album, index) => (
                 <AlbumCard
                     key={album.id}
-                    imageUrl={album.file?.url || '/default_album_image.svg'} 
+                    imageUrl={props.albumPhotos ? props.albumPhotos[index] : (album.file?.url || '/default_album_image.svg')} 
                     songName={album.title}
                     artistName={album.artistName}
                     year={album.releaseDate}
                     id={album.id}
-                    
                 />
             ))}
         </div>
