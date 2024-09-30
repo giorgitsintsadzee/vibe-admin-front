@@ -13,17 +13,17 @@ type MusicFormData = {
     mp3: FileList;
 }
 
-type Props = {
-    artistId: number;
-}
+// type Props = {
+//     artistId: number;
+// }
 
-const AddMusic = (props: Props) => {
+const AddMusic = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm<MusicFormData>();
     const params = useParams();
 
-
-    const [showFile, setShowFile] = useState<File | null>(null);
+    const [showMp3File, setShowMp3File] = useState<File | null>(null);
+    const [showPhotoFile, setShowPhotoFile] = useState<File | null>(null);
     const [musicFileName, setMusicFileName] = useState('');
     const [coverFileName, setCoverFileName] = useState('');
 
@@ -31,69 +31,62 @@ const AddMusic = (props: Props) => {
     const handleCloseModal = () => {
         setIsOpen(false);
         reset();
-        setShowFile(null);
+        setShowMp3File(null);
+        setShowPhotoFile(null);
         setMusicFileName('');
         setCoverFileName('');
     };
 
-    const handleDone = () => {
-        setIsOpen(false);
-        reset();
-    };
-
     const onSubmit: SubmitHandler<MusicFormData> = async (values: MusicFormData) => {
-
         const data = new FormData();
 
         data.append('name', values.name);
         data.append('artistName', values.artistName);
 
-        if (showFile) {
-            data.append('mp3', showFile);
+        if (showMp3File) {
+            data.append('mp3', showMp3File);
         } else {
-            console.error("No file selected");
+            console.error("No music file selected");
             return;
         }
 
-        if (showFile) {
-            data.append('photo', showFile);
+        if (showPhotoFile) {
+            data.append('photo', showPhotoFile);
         } else {
             console.error("No photo file selected");
             return;
         }
-
 
         try {
             const token = document.cookie
                 .split('; ')
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
-
-            await axios.post(`https://vibetunes-backend.onrender.com/music/upload/${props.artistId}/add/${params.id}`, data, {
+        
+            await axios.post(`https://vibetunes-backend.onrender.com/music/upload/${params.id}`, data, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data', 
                     Authorization: `Bearer ${token}`
                 }
             });
 
-            handleDone();
-        } finally {
-            setIsOpen(false);
+            handleCloseModal();
+        } catch (error) {
+            console.error("Error uploading files:", error);
         }
     };
 
     const handleMusicFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             setMusicFileName(event.target.files[0].name);
-            // setMusicFile(event.target.files[0]);
-            setShowFile(event.target.files[0]);
+            setShowMp3File(event.target.files[0]);
         }
     };
 
     const handleCoverFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             setCoverFileName(event.target.files[0].name);
-            setShowFile(event.target.files[0]);
+            setShowPhotoFile(event.target.files[0]);
         }
     };
 
@@ -130,7 +123,7 @@ const AddMusic = (props: Props) => {
                                     placeholder='Artist Name'
                                     {...register('artistName', { required: true })}
                                 />
-                                {errors.name && <span className={styles.error}>artist name is required</span>}
+                                {errors.artistName && <span className={styles.error}>Artist name is required</span>}
                             </div>
                             <div className={styles.inputFile}>
                                 <input
@@ -161,10 +154,10 @@ const AddMusic = (props: Props) => {
 
                             <div className={styles.modalButton}>
                                 <div className={styles.cancel} onClick={handleCloseModal}>
-                                    <Button title={'cancel'} type={'secondary'} showIcon={true} />
+                                    <Button title={'Cancel'} type={'secondary'} showIcon={true} />
                                 </div>
                                 <div className={styles.done}>
-                                    <Button title={'done'} type={'primary'} showIcon={true} />
+                                    <Button title={'Done'} type={'primary'} showIcon={true} />
                                 </div>
                             </div>
                         </form>

@@ -94,8 +94,8 @@ const AlbumsById = (props: Props) => {
                             <span className={styles.albumSong}>{props.albumSong}</span>
                             <span className={styles.albumSingerdate}>{props.albumSinger}</span>
                         </div>
-                        {/* <AddMusic albumsId={props.albumId ?? 0} artistId={props.artistId ?? 0} /> */}
-                        <AddMusic artistId={props.artistId ?? 0} />
+                        
+                        <AddMusic />
 
                     </div>
                     <span className={styles.albumSingerdate}>{props.albumDate}</span>
