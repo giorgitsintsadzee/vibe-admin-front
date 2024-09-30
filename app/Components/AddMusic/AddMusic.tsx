@@ -14,7 +14,6 @@ type MusicFormData = {
 }
 
 type Props = {
-    // albumsId: number;
     artistId: number;
 }
 
@@ -72,6 +71,7 @@ const AddMusic = (props: Props) => {
 
             await axios.post(`https://vibetunes-backend.onrender.com/music/upload/${props.artistId}/add/${params.id}`, data, {
                 headers: {
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
             });
@@ -93,7 +93,6 @@ const AddMusic = (props: Props) => {
     const handleCoverFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             setCoverFileName(event.target.files[0].name);
-            // setCoverFile(event.target.files[0]);
             setShowFile(event.target.files[0]);
         }
     };
