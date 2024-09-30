@@ -13,13 +13,14 @@
 
 .artistImage {
     border-radius: 12px;
-    width: 100%;
+  
 }
 
 .album {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px 4px 10px 4px;
 }
 
 .describtion {
@@ -27,7 +28,7 @@
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
-    padding:0px 10px 10px 20px;
+    padding: 13px 30px 10px 33px;
     flex-wrap: wrap;
 }
 
@@ -41,5 +42,7 @@
 
 .container img {
     border-radius: 12px;
-    padding: 20px 20px 10px 20px;
+    // padding: 20px 20px 10px 20px;
+    width: 260px;
+    height: 253px;
 }

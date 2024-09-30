@@ -3,18 +3,16 @@ import { useState } from 'react';
 import styles from './AlbumsMusicDelete.module.scss'
 import axios from 'axios';
 import Button from '../Button/Button';
-import { useParams } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { clickState } from '@/app/state';
 
 type Props = {
-    albumsMusicId?: number;
+    albumsMusicId: number;
 };
 
 const AlbumsMusicDelete = ({ albumsMusicId }: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [click, setClick] = useRecoilState(clickState);
-    const params = useParams();
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => setIsOpen(false);
@@ -31,7 +29,7 @@ const AlbumsMusicDelete = ({ albumsMusicId }: Props) => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.delete(`https://vibetunes-backend.onrender.com/albums/${params.id}/admin/${albumsMusicId}`, {
+                await axios.delete(`https://vibetunes-backend.onrender.com/music/${albumsMusicId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,

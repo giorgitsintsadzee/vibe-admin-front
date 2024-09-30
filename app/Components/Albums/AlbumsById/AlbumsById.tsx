@@ -9,6 +9,8 @@ type Props = {
     albumSong: string;
     albumSinger: string;
     albumDate: string;
+    // albumId?: number;
+    artistId?: number;
 };
 type MusicResponse = {
     id: number;
@@ -50,7 +52,7 @@ const AlbumsById = (props: Props) => {
 
                 const response = await axios.get<MusicResponse[]>('https://vibetunes-backend.onrender.com/music', {
                     headers: {
-                        'Content-Type': 'application/json',
+                        // 'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`,
                     },
                 });
@@ -92,7 +94,9 @@ const AlbumsById = (props: Props) => {
                             <span className={styles.albumSong}>{props.albumSong}</span>
                             <span className={styles.albumSingerdate}>{props.albumSinger}</span>
                         </div>
+                        
                         <AddMusic />
+
                     </div>
                     <span className={styles.albumSingerdate}>{props.albumDate}</span>
                 </div>
@@ -104,6 +108,7 @@ const AlbumsById = (props: Props) => {
                             songName={music.name}
                             artistName={music.artistName}
                             showBin={false}
+                            albumsMusicId={music.id}
                         />
                     ))}
                 </div>

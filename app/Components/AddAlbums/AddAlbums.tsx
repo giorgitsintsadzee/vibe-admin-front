@@ -12,7 +12,11 @@ type AlbumsFormData = {
     file: FileList;
 }
 
-const AddAlbums = () => {
+type Props = {
+    artistId: number
+}
+
+const AddAlbums = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset,  formState: { errors } } = useForm<AlbumsFormData>();
 
@@ -56,7 +60,7 @@ const AddAlbums = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend.onrender.com/album/upload', data, {
+            await axios.post(`https://vibetunes-backend.onrender.com/album/upload/${props.artistId}`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

@@ -1,13 +1,14 @@
 'use client'
-import React from 'react';  
+import React from 'react';
 import styles from '../MusicCard/MusicCard.module.scss';
-import Bin from '../Bin/Bin';
+import AlbumsMusicDelete from '../AlbumsMusicDelete/AlbumsMusicDelete';
 
 type Props = {
     imageUrl: string;
     songName: string;
     artistName: string;
     showBin: boolean;
+    albumsMusicId?: number;
 }
 
 const MusicCard = (props: Props) => {
@@ -27,7 +28,8 @@ const MusicCard = (props: Props) => {
                     </div>
                 </div>
                 <div className={styles.musicCardHeart}>
-                    {props.showBin ? '' : <Bin />}
+                {props.showBin ? '' : props.albumsMusicId && <AlbumsMusicDelete albumsMusicId={props.albumsMusicId} />}
+
                 </div>
             </div>
         </div>
