@@ -4,6 +4,8 @@ import axios from 'axios';
 import AddMusic from "../../AddMusic/AddMusic";
 import MusicCard from "../../MusicCard/MusicCard";
 import styles from './AlbumsById.module.scss';
+import { useRecoilState } from 'recoil';
+import { clickState } from '@/app/state';
 
 type Props = {
     albumSong: string;
@@ -38,6 +40,7 @@ type MusicData = {
 const AlbumsById = (props: Props) => {
     const [albomsmusic, setAlbomsmusic] = useState<MusicData[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [click] = useRecoilState(clickState)
 
     const [albumCoverUrl, setAlbumCoverUrl] = useState<string | null>(null);
 
@@ -79,7 +82,7 @@ const AlbumsById = (props: Props) => {
         };
 
         fetchAlbumMusic();
-    }, []);
+    }, [click]);
 
     if (error) {
         return <div>{error}</div>;
@@ -101,7 +104,6 @@ const AlbumsById = (props: Props) => {
                             <span className={styles.albumSingerdate}>{props.albumSinger}</span>
                         </div>
                         <AddMusic />
-
                     </div>
                     <span className={styles.albumSingerdate}>{props.albumDate}</span>
                 </div>

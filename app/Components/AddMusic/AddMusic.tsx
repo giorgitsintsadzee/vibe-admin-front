@@ -5,6 +5,8 @@ import styles from './AddMusic.module.scss';
 import Button from '../Button/Button';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { clickState } from '@/app/state';
 
 type MusicFormData = {
     name: string;
@@ -13,14 +15,12 @@ type MusicFormData = {
     mp3: FileList;
 }
 
-// type Props = {
-//     artistId: number;
-// }
 
 const AddMusic = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm<MusicFormData>();
     const params = useParams();
+    const [click, setClick] = useRecoilState(clickState)
 
     const [showMp3File, setShowMp3File] = useState<File | null>(null);
     const [showPhotoFile, setShowPhotoFile] = useState<File | null>(null);
@@ -35,6 +35,12 @@ const AddMusic = () => {
         setShowPhotoFile(null);
         setMusicFileName('');
         setCoverFileName('');
+    };
+
+    const handleDone = () => {
+        setIsOpen(false);
+        setClick(!click)
+        reset();
     };
 
     const onSubmit: SubmitHandler<MusicFormData> = async (values: MusicFormData) => {
@@ -62,17 +68,19 @@ const AddMusic = () => {
                 .split('; ')
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
-        
+
             await axios.post(`https://vibetunes-backend.onrender.com/music/upload/${params.id}`, data, {
                 headers: {
-                    'Content-Type': 'multipart/form-data', 
+                    'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`
                 }
             });
 
-            handleCloseModal();
+            handleDone();
         } catch (error) {
             console.error("Error uploading files:", error);
+        } finally {
+            setIsOpen(false);
         }
     };
 

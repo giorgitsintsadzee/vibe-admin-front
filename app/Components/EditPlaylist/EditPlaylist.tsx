@@ -22,9 +22,6 @@ const EditPlaylist = (props: Props) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<EditListFormData>();
     const [click, setClick] = useRecoilState(clickState)
     const params = useParams();
-    // console.log(props.playlistId, 'ihguier');
-
-
 
     const handleOpenModal = () => setIsOpen(true);
     const handleCloseModal = () => {
@@ -38,9 +35,6 @@ const EditPlaylist = (props: Props) => {
         reset();
     };
 
-    // const handleLogOut = () => {
-    //     window.location.reload();
-    // };
 
 
     const onSubmit: SubmitHandler<EditListFormData> = async (values: EditListFormData) => {
