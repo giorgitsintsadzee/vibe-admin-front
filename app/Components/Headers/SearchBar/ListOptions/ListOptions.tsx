@@ -17,7 +17,7 @@ interface ListOptionsProps {
     onOptionClick?: (text: string) => void;
 }
 
-const ListOptions = ({ options }: ListOptionsProps) => {
+const ListOptions = ({ options, onOptionClick }: ListOptionsProps) => {
     const playMusic = (musicSrc: string) => {
         const audio = new Audio(musicSrc);
         audio.play();
@@ -49,7 +49,7 @@ const ListOptions = ({ options }: ListOptionsProps) => {
                             </div>
                         </div>
                     ) : option.type === 'albums' ? (
-                        <Link href={`albums/${option.id}`}>
+                        <Link href={`/albums`}  onClick={() => onOptionClick && onOptionClick(option.text)}>
                             <div className={styles.artistAlbums}>
                                 {option.file && (
                                     <img
@@ -71,7 +71,7 @@ const ListOptions = ({ options }: ListOptionsProps) => {
                             </div>
                         </Link>
                     ) : (
-                        <Link href={`artist`}>
+                        <Link href={`/artist`}  onClick={() => onOptionClick && onOptionClick(option.text)}>
                             <div className={styles.artistAlbums}>
                                 {option.file && (
                                     <img

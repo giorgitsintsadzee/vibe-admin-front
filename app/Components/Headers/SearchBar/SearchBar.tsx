@@ -15,12 +15,12 @@ type Option = {
 };
 
 interface Album {
-    // firstName: string;
-    // lastName: string;
     id: number;
     title: string;
-    file?: string;
     artistName: string;
+    file: {
+        url: string;
+    };
 }
 
 interface Author {
@@ -28,17 +28,19 @@ interface Author {
     artistName: string;
     firstName: string;
     lastName: string;
-    file?: string;
+    file: {
+        url: string;
+    };
 }
 
 interface Music {
     id: number;
     name: string;
-    // firstName: string;
-    // lastName: string;
-    photo?: string;
     audioSrc?: string;
     artistName: string;
+    photo: {
+        url: string;
+    };
 }
 
 interface ApiResponse {
@@ -81,7 +83,7 @@ const SearchBar = () => {
                 const albumOptions = albumData.map((album: Album) => ({
                     id: album.id,
                     text:  album.title,
-                    file: album.file,
+                    file: album.file.url,
                     type: 'albums' as const,
                     link: `/albums/${album.id}`,
                     artistName: album.artistName,
@@ -90,7 +92,7 @@ const SearchBar = () => {
                 const authorOptions = authorData.map((author: Author) => ({
                     id: author.id,
                     text: `${author.firstName} ${author.lastName}`,
-                    file: author.file,
+                    file: author.file.url,
                     type: 'author' as const,
                     link: `/artist/${author.id}`,
                 }));
@@ -98,7 +100,7 @@ const SearchBar = () => {
                 const musicOptions = musicData.map((music: Music) => ({
                     id: music.id,
                     text: music.name,
-                    photo: music.photo,
+                    photo: music.photo.url,
                     type: 'music' as const,
                     musicSrc: music.audioSrc,
                     artistName: music.artistName,
@@ -120,8 +122,9 @@ const SearchBar = () => {
         fetchOptions();
     }, [query, fetchOptions]);
 
-    const handleOptionClick = (text: string) => {
-        setQuery(text);
+    const handleOptionClick = () => {
+        setQuery('');
+        setFilteredOptions([]); 
     };
 
     return (
