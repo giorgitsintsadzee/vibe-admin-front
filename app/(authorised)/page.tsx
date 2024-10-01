@@ -13,11 +13,11 @@ export default function Home() {
                 </div>
                 <div className={styles.ArtistCard}>
                     <div className={styles.albumsText}>Recently add artist</div>
-                    <PopularArtist limit={10} />
+                    <PopularArtist limit={4} />
                 </div>
                 <div className={styles.albumsPage}>
                     <div className={styles.albumsText}>Recently add Album</div>
-                    <Albums />
+                    <Albums limit={4} />
                 </div>
             </div>
         </>

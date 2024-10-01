@@ -14,7 +14,7 @@ type Album = {
 
 type Props = {
     limit?: number;
-    albumPhotos?: string[]; // New prop for album photos
+    albumPhotos?: string[]; 
 };
 
 const Albums = (props: Props) => {
