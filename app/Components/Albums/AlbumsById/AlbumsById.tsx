@@ -114,7 +114,11 @@ const AlbumsById = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.title}>Albums</div>
+          <div className={styles.headerNames}>
+                    <a className={styles.paths} href="/albums">Albums</a>
+                    <img src="/arrowp.svg" />
+                    <div className={styles.pageTitle}>{artistName}</div>
+                </div>
             <div className={styles.albumContainer}>
                 <div className={styles.albumImg}>
                     <img
