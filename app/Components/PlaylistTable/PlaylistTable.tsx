@@ -8,19 +8,25 @@ import { useParams } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { clickState } from '@/app/state';
 
+type MusicRecord = {
+    id: number;
+    photo: {
+        url: string;
+    };
+};
+
 type SongRecord = {
     id: number;
     name: string;
-    image: string;
+    musics: MusicRecord[];
 };
-
 
 const PlaylistTable = () => {
     const [playlist, setPlaylist] = useState<SongRecord[]>([]);
     const [loading, setLoading] = useState(false);
-    const [click] = useRecoilState(clickState)
+    const [click] = useRecoilState(clickState);
     const params = useParams();
-console.log(playlist,'playlist')
+
     useEffect(() => {
         const fetchPlaylist = async () => {
             setLoading(true);
@@ -34,26 +40,19 @@ console.log(playlist,'playlist')
                     throw new Error('No token found');
                 }
 
-                const response = await axios.get(`https://vibetunes-backend.onrender.com/playlist/admin/${params.id}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                const response = await axios.get(
+                    `https://vibetunes-backend.onrender.com/playlist/admin/${params.id}`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
 
-                // const users = response.data;
-                // console.log(users, 'users');
-
-                // const formattedData = users.map((user: SongRecord) => ({
-                //     // key: index,
-                //     id: user.id,
-                //     name: user.name,
-                //     image: user.image || 'default_image_url.jpg',
-                // }));
-
-                setPlaylist( response.data);
+                setPlaylist(response.data);
             } catch (error) {
-                console.error('Failed to fetch users:', error);
+                console.error('Failed to fetch playlist:', error);
             } finally {
                 setLoading(false);
             }
@@ -64,19 +63,22 @@ console.log(playlist,'playlist')
 
     const columns = [
         {
-            title: 'Name',
+            title: 'Playlist Name',
             dataIndex: 'name',
             key: 'name',
-            render: (text: string, record: SongRecord) => (
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <img
-                        src={record.image}
-                        alt={record.name}
-                        style={{ width: '40px', height: '40px', marginRight: '10px' }}
-                    />
-                    {text}
-                </div>
-            ),
+            render: (text: string, record: SongRecord) => {
+                const musicImage = record.musics[0]?.photo?.url || '/whiteLogo.png'; 
+                return (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <img
+                            src={musicImage}
+                            alt="Music"
+                            style={{ width: '40px', height: '40px', marginRight: '10px' }}
+                        />
+                        <span>{text}</span>
+                    </div>
+                );
+            },
         },
         {
             title: '',
