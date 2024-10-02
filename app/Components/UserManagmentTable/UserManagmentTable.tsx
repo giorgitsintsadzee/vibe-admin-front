@@ -8,7 +8,7 @@ import ChangePassword from '../ChangePassword/ChangePassword';
 import axios from 'axios';
 
 type EmailRecord = {
-    key: number;
+    id: number;
     email: string;
     createdAt: Date;
 };
@@ -17,6 +17,8 @@ const UserManagmentTable = () => {
     const [dataSource, setDataSource] = useState<EmailRecord[]>([]);
     const [loading, setLoading] = useState(false);
 
+    console.log(dataSource,'data');
+    
 
     useEffect(() => {
         const fetchEmails = async () => {
@@ -37,13 +39,13 @@ const UserManagmentTable = () => {
                     },
                 });
                 const users = response.data;
-                const formattedData = users.map((user: EmailRecord, index: number) => ({
-                    key: String(index + 1),
-                    email: user.email,
-                    createdAt: new Date(user.createdAt).toLocaleDateString(),
-                }));
+                // const formattedData = users.map((user: EmailRecord, index: number) => ({
+                //     key: String(index + 1),
+                //     email: user.email,
+                //     createdAt: new Date(user.createdAt).toLocaleDateString(),
+                // }));
 
-                setDataSource(formattedData);
+                setDataSource(response.data);
             } catch (error) {
                 console.error('Failed to fetch users:', error);
             } finally {
@@ -67,12 +69,16 @@ const UserManagmentTable = () => {
             key: 'createdAt',
             render: (text: string) => <span style={{ color: '#fff' }}>{text}</span>,
         },
+
         {
             render: (record: EmailRecord) => (
+                console.log(record,'fsafasfsgf'),
+                
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                    <Playlist id={record.key} />
-                    <Padlock id={record.key} />
-                    <ChangePassword id={record.key} />
+                
+                    <Playlist id={record.id} />
+                    <Padlock id={record.id} />
+                    <ChangePassword id={record.id} />
                 </div>
             ),
         },

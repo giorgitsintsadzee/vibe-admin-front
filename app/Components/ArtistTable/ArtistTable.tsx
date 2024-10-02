@@ -63,7 +63,6 @@ const ArtistTable = () => {
 
                 setDataSource(data);
             } catch (error) {
-                console.error('Error fetching artist data:', error);
                 setError('Failed to fetch artist data');
             }
         };

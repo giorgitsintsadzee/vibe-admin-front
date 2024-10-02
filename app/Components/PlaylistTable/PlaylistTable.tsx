@@ -20,7 +20,7 @@ const PlaylistTable = () => {
     const [loading, setLoading] = useState(false);
     const [click] = useRecoilState(clickState)
     const params = useParams();
-
+console.log(playlist,'playlist')
     useEffect(() => {
         const fetchPlaylist = async () => {
             setLoading(true);
@@ -41,17 +41,17 @@ const PlaylistTable = () => {
                     },
                 });
 
-                const users = response.data;
-                console.log(users, 'users');
+                // const users = response.data;
+                // console.log(users, 'users');
 
-                const formattedData = users.map((user: SongRecord) => ({
-                    // key: index,
-                    id: user.id,
-                    name: user.name,
-                    image: user.image || 'default_image_url.jpg',
-                }));
+                // const formattedData = users.map((user: SongRecord) => ({
+                //     // key: index,
+                //     id: user.id,
+                //     name: user.name,
+                //     image: user.image || 'default_image_url.jpg',
+                // }));
 
-                setPlaylist(formattedData);
+                setPlaylist( response.data);
             } catch (error) {
                 console.error('Failed to fetch users:', error);
             } finally {
