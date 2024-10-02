@@ -38,12 +38,6 @@ const UserManagmentTable = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                const users = response.data;
-                // const formattedData = users.map((user: EmailRecord, index: number) => ({
-                //     key: String(index + 1),
-                //     email: user.email,
-                //     createdAt: new Date(user.createdAt).toLocaleDateString(),
-                // }));
 
                 setDataSource(response.data);
             } catch (error) {
@@ -97,3 +91,4 @@ const UserManagmentTable = () => {
 };
 
 export default UserManagmentTable;
+
