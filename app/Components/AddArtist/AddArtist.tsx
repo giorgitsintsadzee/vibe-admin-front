@@ -55,7 +55,7 @@ const AddArtist = () => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.post('https://vibetunes-backend.onrender.com/author/upload', data, {
+            await axios.post('http://localhost:3001/author/upload', data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

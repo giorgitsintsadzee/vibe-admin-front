@@ -41,7 +41,7 @@ const PlaylistTable = () => {
                 }
 
                 const response = await axios.get(
-                    `https://vibetunes-backend.onrender.com/playlist/admin/${params.id}`,
+                    `http://localhost:3001/playlist/admin/${params.id}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',

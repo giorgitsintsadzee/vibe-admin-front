@@ -31,7 +31,7 @@ const ArtistDelete = ({ artistId }: Props) => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.delete(`https://vibetunes-backend.onrender.com/author/${artistId}`, {
+            await axios.delete(`http://localhost:3001/author/${artistId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,

@@ -65,7 +65,7 @@ const SearchBar = () => {
                     throw new Error('No token found');
                 }
 
-                const response = await axios.get<ApiResponse>(`https://vibetunes-backend.onrender.com/search?searchField=${query}`, {
+                const response = await axios.get<ApiResponse>(`http://localhost:3001/search?searchField=${query}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`,

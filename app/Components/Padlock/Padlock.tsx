@@ -21,7 +21,7 @@ const Padlock = ({ id }: Props) => {
           throw new Error('No token found');
         }
 
-        const response = await axios.get(`https://vibetunes-backend.onrender.com/users/${id}`, {
+        const response = await axios.get(`http://localhost:3001/users/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -49,7 +49,7 @@ const Padlock = ({ id }: Props) => {
         throw new Error('No token found');
       }
 
-      await axios.delete(`https://vibetunes-backend.onrender.com/users/${id}`, {
+      await axios.delete(`http://localhost:3001/users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

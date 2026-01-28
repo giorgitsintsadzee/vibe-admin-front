@@ -49,7 +49,7 @@ const EditPlaylist = (props: Props) => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.patch(`https://vibetunes-backend.onrender.com/playlist/${params.id}/edit/${props.playlistId}`, data, {
+            await axios.patch(`http://localhost:3001/playlist/${params.id}/edit/${props.playlistId}`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`

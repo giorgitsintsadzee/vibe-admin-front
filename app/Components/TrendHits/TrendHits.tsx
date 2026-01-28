@@ -53,7 +53,7 @@ const AlbumsById: React.FC<Props> = ({ limit }) => {
                     throw new Error('No token found');
                 }
 
-                const response = await axios.get('https://vibetunes-backend.onrender.com/music/recent', {
+                const response = await axios.get('http://localhost:3001/music/recent', {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`,

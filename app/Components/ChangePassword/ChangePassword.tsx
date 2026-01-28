@@ -44,7 +44,7 @@ const ChangePassword = (props: Props) => {
                 .find((row) => row.startsWith('token='))
                 ?.split('=')[1];
 
-            await axios.patch(`https://vibetunes-backend.onrender.com/users/${props.id}/change-password`, data, {
+            await axios.patch(`http://localhost:3001/users/${props.id}/change-password`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`

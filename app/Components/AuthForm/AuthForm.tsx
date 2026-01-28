@@ -39,7 +39,7 @@ const AuthForm = () => {
     }, [setValue]);
 
     const onSubmit = (values: FormValues) => { 
-        axios.post('https://vibetunes-backend.onrender.com/auth/admin/signIn', values)
+        axios.post('http://localhost:3001/auth/admin/signIn', values)
             .then(r => {
                 setCookie('token', r.data.accessToken, 60);
 
